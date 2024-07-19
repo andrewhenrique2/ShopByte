@@ -9,7 +9,7 @@ export default function Atrativos() {
     return (
         <div className="flex w-full mt-10 items-center justify-center" style={{ height: imageHeight }}>
             <div 
-                className="relative border-none border-gray-500 rounded-md mx-20 cursor-pointer"
+                className="relative border-none border-gray-500 rounded-md mx-5 cursor-pointer"
                 style={{
                     width: imageWidth, 
                     height: imageHeight,
@@ -29,7 +29,7 @@ export default function Atrativos() {
                 />
             </div>
             <div 
-                className="relative border-none border-gray-500 rounded-md mx-20 cursor-pointer" 
+                className="relative border-none border-gray-500 rounded-md mx-5 cursor-pointer" 
                 style={{
                     width: imageWidth, 
                     height: imageHeight,

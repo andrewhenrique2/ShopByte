@@ -93,44 +93,6 @@ const Header = () => {
           </Link>
         </div>
       </div>
-
-      <nav className="bg-bg text-white py-2">
-        <div className="container mx-auto px-8 flex items-center justify-between">
-          <div className="relative flex gap-12 items-center">
-            <div 
-              ref={buttonRef} 
-              onMouseEnter={handleMouseEnter} 
-              onMouseLeave={handleMouseLeave} 
-              className="flex space-x-2 items-center bg-black text-white py-2 px-4 rounded hover:text-white hover:bg-link"
-            >
-              <FaBars size={24} />
-              <button className="text-white">DEPARTAMENTOS</button>
-            </div>
-            {isMenuOpen && (
-              <div 
-                ref={menuRef} 
-                className="absolute top-full left-0  bg-gray-800 text-white rounded shadow-lg w-48 z-40"
-                onMouseEnter={() => setIsHovering(true)} 
-                onMouseLeave={handleMouseLeave}
-              >
-                <Link href="/" className="block px-4 py-2 hover:bg-gray-700">Mouse</Link>
-                <Link href="/" className="block px-4 py-2 hover:bg-gray-700">Teclado</Link>
-                <Link href="/" className="block px-4 py-2 hover:bg-gray-700">Fone de Ouvido</Link>
-                <Link href="/" className="block px-4 py-2 hover:bg-gray-700">Monitor</Link>
-                <Link href="/" className="block px-4 py-2 hover:bg-gray-700">Gabinete</Link>
-              </div>
-            )}
-            <Link href="/" className="hover:text-link">PROMOCOES</Link>
-            <Link href="/" className="hover:text-link">PC GAMER</Link>
-            <Link href="/" className="hover:text-link">KIT UPGRADE</Link>
-            <Link href="/" className="hover:text-link">HARDWARE</Link>
-            <Link href="/" className="hover:text-link">NOTBOOKS</Link>
-            <Link href="/" className="hover:text-link">MONITORES</Link>
-            <Link href="/" className="hover:text-link">MONTE SEU PC</Link>
-            <Link href="/" className="hover:text-link">ATENDIMENTO</Link>
-          </div>
-        </div>
-      </nav>
     </header>
   );
 };
