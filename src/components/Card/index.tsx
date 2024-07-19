@@ -10,7 +10,7 @@ const Card = ({
   additionalImages = [],
 }: any) => {
   return (
-    <div className="relative bg-card rounded-md p-4 flex flex-col items-center text-center mb-12 group">
+    <div className="relative bg-card rounded-md p-4 flex flex-col items-center text-center mb-12 group shadow-sm cursor-pointer">
       {/* Imagem principal do cartão */}
       <div className="relative h-[250px] w-[200px] mb-4">
         <Image
@@ -62,7 +62,7 @@ const Card = ({
 
       {/* Container para o botão abaixo do card */}
       <div className="absolute inset-x-0 bottom-[-40px] flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <button className="bg-green-500 text-white py-4 px-6 rounded-md w-full rounded-t-none font-black">
+        <button className="bg-green-500 text-white py-4 px-6 rounded-md w-full rounded-t-none font-black shadow-md hover:shadow-lg">
           Adicionar ao carrinho
         </button>
       </div>
