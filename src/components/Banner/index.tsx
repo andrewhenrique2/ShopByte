@@ -32,20 +32,22 @@ export default function Banner() {
   }, [currentIndex, controls]);
 
   return (
-    <div className="banner-container relative mt-20"> {/* Ajuste a margem superior aqui */}
+    <div className="banner-container relative mt-20 overflow-hidden"> {/* Ajuste a margem superior aqui */}
       <motion.div
         className="flex"
         animate={controls}
         initial={{ x: 0 }}
         style={{
+          display: 'flex',
           flexDirection: 'row',
           width: `${images.length * 100}vw`,
+          transition: 'transform 1s ease-in-out', // Garantir transição
         }}
       >
         {images.map((image, index) => (
           <div
             key={index}
-            className=""
+            className="" // Ajuste para ocupar toda a largura da tela
           >
             <Image
               src={image}
