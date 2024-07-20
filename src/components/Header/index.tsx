@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaHeart, FaShoppingCart, FaSearch, FaUserCircle } from 'react-icons/fa';
-import logo from '../../../public/assets/logo.svg';
+import logo from '../../../public/logo.svg';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

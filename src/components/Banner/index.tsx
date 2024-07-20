@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
-import banner1 from '../../../public/assets/b1.jpg';
-import banner2 from '../../../public/assets/b2.jpg';
-import banner3 from '../../../public/assets/b3.jpg';
+import banner1 from '../../../public/b1.jpg';
+import banner2 from '../../../public/b2.jpg';
+import banner3 from '../../../public/b3.jpg';
 
 const images = [banner1, banner2, banner3];
 

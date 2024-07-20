@@ -1,7 +1,7 @@
 // src/pages/index.tsx
 import Header from '@/components/Header';
 import Atrativos from '@/components/Atrativos';
-import Itens from '@/components/Itens';
+import Itens from '@/pages/itens';
 
 const Home = () => {
     return (

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import INTEL from '../../../public/assets/intelbanner.webp';
-import AMD from '../../../public/assets/bannerryzen.jpg';
+import INTEL from '../../../public/intelbanner.webp';
+import AMD from '../../../public/bannerryzen.jpg';
 
 export default function Atrativos() {
     const imageWidth = 650; 

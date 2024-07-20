@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import { StaticImageData } from 'next/image';
+import Image, { StaticImageData } from 'next/image';
+import { FaBolt } from 'react-icons/fa';
 
 interface CardProps {
   id: string;
@@ -11,6 +11,7 @@ interface CardProps {
   newPrice?: string;
   installment?: string;
   additionalImages?: (StaticImageData | string)[];
+  isOnPromotion?: boolean;
 }
 
 const Card = ({
@@ -22,12 +23,24 @@ const Card = ({
   newPrice,
   installment,
   additionalImages = [],
+  isOnPromotion = false,
 }: CardProps) => {
   const router = useRouter();
 
   const handleCardClick = () => {
-    const formattedTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    router.push(`/produto/${id}`);
+    router.push({
+      pathname: `/produto/${id}`,
+      query: {
+        title,
+        imageSrc: typeof imageSrc === 'string' ? imageSrc : imageSrc.src,
+        oldPrice,
+        newPrice,
+        installment,
+        additionalImages: JSON.stringify(
+          additionalImages.map(img => (typeof img === 'string' ? img : img.src))
+        ),
+      },
+    });
   };
 
   return (
@@ -37,7 +50,7 @@ const Card = ({
     >
       <div className="relative w-full h-[250px] mb-4">
         <Image
-          src={imageSrc}
+          src={typeof imageSrc === 'string' ? imageSrc : imageSrc}
           alt={imageAlt}
           fill
           style={{ objectFit: 'cover' }}
@@ -50,7 +63,7 @@ const Card = ({
           {additionalImages.map((src, index) => (
             <div key={index} className="relative w-[100px] h-[100px]">
               <Image
-                src={src}
+                src={typeof src === 'string' ? src : src}
                 alt={`Additional ${index + 1}`}
                 fill
                 style={{ objectFit: 'contain' }}
@@ -58,6 +71,13 @@ const Card = ({
               />
             </div>
           ))}
+        </div>
+      )}
+
+      {isOnPromotion && (
+        <div className="absolute top-0 left-0 m-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+          <FaBolt className="inline mr-1" />
+          Promoção
         </div>
       )}
 
