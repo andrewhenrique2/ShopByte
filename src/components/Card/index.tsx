@@ -1,17 +1,16 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { StaticImageData } from 'next/image';
 
-// Ajuste os tipos de props conforme necessário
 interface CardProps {
   id: string;
-  imageSrc: StaticImageData;
+  imageSrc: StaticImageData | string;
   imageAlt: string;
   title: string;
   oldPrice?: string;
   newPrice?: string;
   installment?: string;
-  additionalImages?: StaticImageData[];
+  additionalImages?: (StaticImageData | string)[];
 }
 
 const Card = ({
@@ -28,7 +27,7 @@ const Card = ({
 
   const handleCardClick = () => {
     const formattedTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    router.push(`/produto/${id}-${formattedTitle}`);
+    router.push(`/produto/${id}`);
   };
 
   return (
@@ -36,7 +35,7 @@ const Card = ({
       onClick={handleCardClick}
       className="relative bg-card rounded-md p-4 flex flex-col items-center text-center mb-12 group shadow-sm cursor-pointer"
     >
-      <div className="relative h-[250px] w-[200px] mb-4">
+      <div className="relative w-full h-[250px] mb-4">
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -49,7 +48,7 @@ const Card = ({
       {additionalImages.length > 0 && (
         <div className="flex justify-center items-center mb-4 space-x-2">
           {additionalImages.map((src, index) => (
-            <div key={index} className={`relative w-[100px] h-[100px] ${index > 0 ? 'ml-2' : ''}`}>
+            <div key={index} className="relative w-[100px] h-[100px]">
               <Image
                 src={src}
                 alt={`Additional ${index + 1}`}

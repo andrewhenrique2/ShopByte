@@ -5,62 +5,55 @@ import RYZEN from '../../../public/assets/Ryzen.png';
 import INTEL from '../../../public/assets/intel.png';
 import gabinete1 from '../../../public/assets/pc.jpg';
 
-
 export default function Itens() {
   return (
     <section className="mt-24 mx-auto p-8 bg-bgitens" style={{ maxWidth: 'calc(100% - 300px)' }}>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         <Card
-          id="computador-x-home-ryzen-5-5600x-nvidia-geforce-rtx-3060-16gb-ddr4-ssd-480gb"
+          id="produto1"
           imageSrc={gabinete2}
-          imageAlt="PC"
+          imageAlt="Computador X-Home"
           title="Computador X-Home Ryzen 5 5600X / NVIDIA GeForce RTX 3060 / 16GB DDR4 / SSD 480GB"
           oldPrice="R$ 4.500,00"
           newPrice="R$ 3.499,90"
           installment="10x de R$ 350,00 sem juros"
-          additionalImages={[geforce, RYZEN ]}
         />
         <Card
-          id="gabinete-t-gamer-hawk-intel-i5-10400f-amd-radeon-rx-550-8gb-ddr4-ssd-240gb"
+          id="produto2"
+          imageSrc={geforce}
+          imageAlt="GeForce RTX"
+          title="GeForce RTX 3080 10GB"
+          oldPrice="R$ 6.000,00"
+          newPrice="R$ 5.500,00"
+          installment="12x de R$ 460,00 sem juros"
+        />
+        <Card
+          id="produto3"
+          imageSrc={RYZEN}
+          imageAlt="Ryzen 7 5800X"
+          title="AMD Ryzen 7 5800X"
+          oldPrice="R$ 2.500,00"
+          newPrice="R$ 2.300,00"
+          installment="8x de R$ 300,00 sem juros"
+        />
+        <Card
+          id="produto4"
+          imageSrc={INTEL}
+          imageAlt="Intel Core i7"
+          title="Intel Core i7 12700K"
+          oldPrice="R$ 3.200,00"
+          newPrice="R$ 3.000,00"
+          installment="10x de R$ 300,00 sem juros"
+        />
+        <Card
+          id="produto5"
           imageSrc={gabinete1}
-          imageAlt="Gabinete"
-          title="Gabinete T-GAMER Hawk Intel i5 10400F / AMD Radeon RX 550 / 8GB DDR4 / SSD 240GB"
-          oldPrice="R$ 3.658,09"
-          newPrice="R$ 2.359,90"
-          installment="12x de R$ 231,36 sem juros no cartão"
-          additionalImages={[geforce, INTEL]}
+          imageAlt="Gabinete Gamer"
+          title="Gabinete Gamer RGB"
+          oldPrice="R$ 500,00"
+          newPrice="R$ 450,00"
+          installment="5x de R$ 90,00 sem juros"
         />
-              <Card
-          id="computador-x-home-ryzen-5-5600x-nvidia-geforce-rtx-3060-16gb-ddr4-ssd-480gb"
-          imageSrc={gabinete2}
-          imageAlt="PC"
-          title="Computador X-Home Ryzen 5 5600X / NVIDIA GeForce RTX 3060 / 16GB DDR4 / SSD 480GB"
-          oldPrice="R$ 4.500,00"
-          newPrice="R$ 3.499,90"
-          installment="10x de R$ 350,00 sem juros"
-          additionalImages={[geforce, RYZEN ]}
-        />
-          <Card
-          id="gabinete-t-gamer-hawk-intel-i5-10400f-amd-radeon-rx-550-8gb-ddr4-ssd-240gb"
-          imageSrc={gabinete1}
-          imageAlt="Gabinete"
-          title="Gabinete T-GAMER Hawk Intel i5 10400F / AMD Radeon RX 550 / 8GB DDR4 / SSD 240GB"
-          oldPrice="R$ 3.658,09"
-          newPrice="R$ 2.359,90"
-          installment="12x de R$ 231,36 sem juros no cartão"
-          additionalImages={[geforce, INTEL]}
-        />
-              <Card
-          id="computador-x-home-ryzen-5-5600x-nvidia-geforce-rtx-3060-16gb-ddr4-ssd-480gb"
-          imageSrc={gabinete2}
-          imageAlt="PC"
-          title="Computador X-Home Ryzen 5 5600X / NVIDIA GeForce RTX 3060 / 16GB DDR4 / SSD 480GB"
-          oldPrice="R$ 4.500,00"
-          newPrice="R$ 3.499,90"
-          installment="10x de R$ 350,00 sem juros"
-          additionalImages={[geforce, RYZEN ]}
-        />
-       
       </div>
     </section>
   );
