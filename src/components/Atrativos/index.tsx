@@ -18,11 +18,11 @@ export default function Atrativos() {
             >
                 <Image 
                     src={AMD} 
-                    layout="fill" 
-                    objectFit="cover" 
-                    alt="" 
+                    fill
+                    alt="AMD Banner" 
                     className="rounded-2xl"
                     style={{
+                        objectFit: 'cover',
                         maxWidth: '100%',
                         maxHeight: '100%',
                     }}
@@ -38,11 +38,11 @@ export default function Atrativos() {
             >
                 <Image 
                     src={INTEL} 
-                    layout="fill" 
-                    objectFit="cover" 
-                    alt="" 
+                    fill
+                    alt="Intel Banner" 
                     className="rounded-2xl"
                     style={{
+                        objectFit: 'cover',
                         maxWidth: '100%', 
                         maxHeight: '100%',
                     }}

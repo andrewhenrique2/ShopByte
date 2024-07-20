@@ -19,3 +19,11 @@ body, input, textarea, button {
   font-weight: 400;
 }
 
+
+:root {
+  --header-height: 100px; /* Ajuste conforme necessário */
+}
+
+header {
+  height: var(--header-height);
+}

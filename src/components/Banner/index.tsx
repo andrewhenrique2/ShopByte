@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
 import banner1 from '../../../public/b1.jpg';
@@ -14,14 +14,30 @@ const transition = {
 
 export default function Banner() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [paddingTop, setPaddingTop] = useState(0);
   const controls = useAnimation();
+  const headerRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
+    // Função para definir o padding-top com base na altura do header
+    const updatePaddingTop = () => {
+      if (headerRef.current) {
+        setPaddingTop(headerRef.current.offsetHeight);
+      }
+    };
+
+    // Adicionar listener para redimensionamento da janela
+    window.addEventListener('resize', updatePaddingTop);
+    updatePaddingTop(); // Definir o padding-top inicial
+
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 6000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', updatePaddingTop);
+    };
   }, []);
 
   useEffect(() => {
@@ -32,7 +48,10 @@ export default function Banner() {
   }, [currentIndex, controls]);
 
   return (
-    <div className="banner-container relative mt-20 overflow-hidden"> {/* Ajuste a margem superior aqui */}
+    <div
+      className="banner-container relative overflow-hidden"
+      style={{ paddingTop: `${paddingTop}px` }} // Aplicando padding-top com base na altura do header
+    >
       <motion.div
         className="flex"
         animate={controls}
@@ -41,7 +60,7 @@ export default function Banner() {
           display: 'flex',
           flexDirection: 'row',
           width: `${images.length * 100}vw`,
-          transition: 'transform 1s ease-in-out', // Garantir transição
+          transition: 'transform 1s ease-in-out',
         }}
       >
         {images.map((image, index) => (
@@ -52,7 +71,6 @@ export default function Banner() {
             <Image
               src={image}
               alt={`banner-${index}`}
-              layout="responsive"
               width={1920}
               height={1080}
               style={{

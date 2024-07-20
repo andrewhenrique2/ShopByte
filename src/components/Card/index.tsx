@@ -50,11 +50,12 @@ const Card = ({
     >
       <div className="relative w-full h-[250px] mb-4">
         <Image
-          src={typeof imageSrc === 'string' ? imageSrc : imageSrc}
+          src={imageSrc}
           alt={imageAlt}
           fill
           style={{ objectFit: 'cover' }}
           className="rounded-md"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
 
@@ -63,11 +64,12 @@ const Card = ({
           {additionalImages.map((src, index) => (
             <div key={index} className="relative w-[100px] h-[100px]">
               <Image
-                src={typeof src === 'string' ? src : src}
+                src={src}
                 alt={`Additional ${index + 1}`}
                 fill
                 style={{ objectFit: 'contain' }}
                 className="rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           ))}

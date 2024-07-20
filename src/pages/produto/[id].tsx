@@ -111,7 +111,10 @@ const ItemDetail = ({
         </div>
 
         <div className="flex flex-col space-y-4 text-gray-200 bg-container rounded-md p-4 w-[80%] mx-auto">
-          <Image src={bannerContainer} alt="Banner de promoção" className="rounded-[6px] w-full" />
+          <Image 
+          src={bannerContainer}
+           alt="Banner de promoção" 
+           className="rounded-[6px] w-full" />
 
           <div className="flex flex-col space-y-4 mb-4">
             <div className="flex w-full mb-4">

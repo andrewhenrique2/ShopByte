@@ -9,6 +9,7 @@ const Header: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLHeadingElement | null>(null);
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -47,19 +48,21 @@ const Header: React.FC = () => {
   }, [isHovering]);
 
   return (
-    <header className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md">
+    <header
+      ref={headerRef}
+      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md"
+    >
       <div className="container mx-auto flex items-center justify-between px-8">
         <div className="flex items-center space-x-4">
           <div className="relative">
             <Link href='/'>
-            <Image 
-              src={logo} 
-              alt="Logo" 
-              layout="fixed" 
-              width={200} // Defina o tamanho fixo em pixels
-              height={200} // Defina o tamanho fixo em pixels
-              style={{ objectFit: 'contain' }} 
-            />
+              <Image 
+                src={logo} 
+                alt="Logo" 
+                width={200} // Defina o tamanho fixo em pixels
+                height={200} // Defina o tamanho fixo em pixels
+                style={{ objectFit: 'contain' }} 
+              />
             </Link>
           </div>
         </div>
