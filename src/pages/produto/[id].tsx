@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { StaticImageData } from 'next/image';
 import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus } from 'react-icons/fa';
-import { GetServerSideProps } from 'next';
 import bannerContainer from '../../../public/bannerContainer.jpg';
 
 interface ItemDetailProps {
@@ -18,7 +17,12 @@ interface ItemDetailProps {
   releaseDate?: string;
   isNew?: boolean;
   isOnPromotion?: boolean;
+  processor?: string;  
+  memory?: string;     
+  storage?: string;   
 }
+
+
 
 const ItemDetail = ({
   id,
@@ -32,6 +36,9 @@ const ItemDetail = ({
   releaseDate,
   isNew,
   isOnPromotion,
+  processor,
+  memory,
+  storage,
 }: ItemDetailProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [showInstallments, setShowInstallments] = useState<boolean>(false);
@@ -43,6 +50,10 @@ const ItemDetail = ({
       currency: 'BRL',
     });
   };
+
+  useEffect(() => {
+    console.log({ processor, memory, storage });
+  }, [processor, memory, storage]);
 
   // Atualiza a conversão do preço
   const convertPrice = (price: string | undefined) => {
@@ -98,9 +109,14 @@ const ItemDetail = ({
   };
 
   return (
+              
     <div className="container mx-auto p-8 bg-card mt-14 rounded-md mb-28 ">
+      
+              {/* Imagem do produto*/}
+              
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="relative h-[500px] w-full mb-4">
+
+        <div className="relative h-[500px] w-full ml-16 mt-10">
           <Image
             src={imageSrc}
             alt="Imagem do produto"
@@ -108,7 +124,38 @@ const ItemDetail = ({
             style={{ objectFit: 'contain' }}
             className="rounded-md"
           />
+
+
+            {/* informações adicionais do prooduto */}
+
+    <div className="flex flex-col absolute left-16 top-16 ">
+        {processor && (
+          <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10 ">
+            Processador{' '}
+            <span
+              className={`font-black text-[18px] ${
+                processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
+              }`}
+            >
+              {processor}
+            </span>
+          </div>
+        )}
+        {memory && (
+          <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
+            Memória <span className='text-pink font-black text-[20px]'>{memory}</span>
+          </div>
+        )}
+        {storage && (
+          <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
+            Armazenamento <span className='text-cian font-black text-[20px]'>{storage}</span>
+          </div>
+        )}
         </div>
+        </div>
+
+
+                              {/* Parte direita do layout */}
 
         <div className="flex flex-col space-y-4 text-gray-200 bg-container rounded-md p-4 w-[80%] mx-auto">
           <Image 
@@ -153,41 +200,40 @@ const ItemDetail = ({
             </div>
 
 
-{/* Novos ícones adicionados aqui */}
-<div className="flex flex-col items-start gap-4 mb-4">
-  <div className="flex gap-4">
+                          {/*  ícones  aqui */}
 
-  <span className="flex items-center gap-2 text-[14px] text-card font-bold ">
-    <FaStar className="text-yellow-500 mb-0.5" />
-    NOVO
-  </span>
 
-  <span className="flex items-center gap-2 text-[14px] text-card font-semibold">
-    <FaCalendar className="text-yellow-500 mb-0.5" />
-    12 meses de garantia
-  </span>
+          <div className="flex flex-col items-start gap-4 mb-4">
+            <div className="flex gap-4">
 
-  </div>
+            <span className="flex items-center gap-2 text-[14px] text-card font-bold ">
+              <FaStar className="text-yellow-500 mb-0.5" />
+              NOVO
+            </span>
 
-  <div className="flex items-center gap-2 text-[14px] text-card font-bold">
-  <span className="flex items-center gap-2 text-[14px] text-card">
-    
-    <FaBolt className="text-green-500 mb-0.5" />
-      PROMOÇÃO
-  </span>
-  <div>
-      <span className="relative group flex items-center gap-2 text-[14px] text-card">
-        <FaInfoCircle className="text-gray-400 mb-0.5" />
-        <span className="absolute left-0 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
-          Disponível no estoque
-        </span>
-      </span>
-    </div>
+            <span className="flex items-center gap-2 text-[14px] text-card font-semibold">
+              <FaCalendar className="text-yellow-500 mb-0.5" />
+              12 meses de garantia
+            </span>
 
-  
-</div>
-</div>
+            </div>
 
+            <div className="flex items-center gap-2 text-[14px] text-card font-bold">
+            <span className="flex items-center gap-2 text-[14px] text-card">
+              
+              <FaBolt className="text-green-500 mb-0.5" />
+                PROMOÇÃO
+            </span>
+            <div>
+                <span className="relative group flex items-center gap-2 text-[14px] text-card">
+                  <FaInfoCircle className="text-gray-400 mb-0.5" />
+                  <span className="absolute left-0 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
+                    Disponível no estoque
+                  </span>
+                </span>
+              </div>   
+          </div>
+          </div>
 
 
             <div className="space-y-2 mb-4">
@@ -203,11 +249,13 @@ const ItemDetail = ({
               <div className="">
               <div className="flex items-center gap-2 text-card">
                 <FaBarcode size={32} className="text-gray-500" />
-                <span className="text-card text-[17.5px]">
-                <span className=""> De:</span>
-                <span className="line-through pl-1"> {oldPrice}</span>
-                <span className=""> por:</span>
-              </span>              </div>
+                  <span className="text-card text-[17.5px]">
+                  <span className=""> De:</span>
+                  <span className="line-through pl-1"> {oldPrice}</span>
+                  <span className=""> por:</span>
+                  </span>              
+              </div>
+
               <div className="flex items-center gap-2 text-card">
                 <span className="text-green-400 font-black text-[24px] ml-11"> {formatCurrency(productPrice)}</span>
               </div>
@@ -221,9 +269,13 @@ const ItemDetail = ({
               <FaCreditCard size={32} className="text-gray-500 mr-4" />
                 <span className="text-[20px] font-bold text-orange-500">{formatCurrency(productPrice)}</span>
                 </div>
-                <span className="text-[16px] px-1 ml-11"> 12x de {formatCurrency(parseFloat(lastInstallmentValue))} sem juros no cartão</span>
+                <span className="text-[16px] px-1 ml-11 "> 12x de {formatCurrency(parseFloat(lastInstallmentValue))} sem juros no cartão</span>
+
+                
+
+                                    {/*  PARCELAMENTO E BOTAO DE COMPRA */}
                 <button 
-                  className="flex items-center gap-2 text-blue-500 font-semibold ml-11" 
+                  className="flex items-center gap-2 text-blue-500 font-semibold ml-11 mt-2" 
                   onClick={() => setShowInstallments(!showInstallments)}
                 >
                   <FaPlus />
@@ -262,6 +314,10 @@ const ItemDetail = ({
   );
 };
 
+ {/*  PROPS PEGANDO DE CARD E ITENS */}
+
+import { GetServerSideProps } from 'next';
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
   const {
@@ -276,6 +332,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     releaseDate = '',
     isNew = false,
     isOnPromotion = false,
+    processor = '', 
+    memory = '',   
+    storage = '',   
   } = query;
 
   return {
@@ -291,8 +350,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       releaseDate: releaseDate as string,
       isNew: isNew === 'true',
       isOnPromotion: isOnPromotion === 'true',
+      processor: processor as string, 
+      memory: memory as string,       
+      storage: storage as string,    
     },
   };
 };
 
 export default ItemDetail;
+

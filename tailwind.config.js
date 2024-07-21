@@ -8,6 +8,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        pink: '#d104d1',
+        cian: '#05dae3',
         verdao: '#00a000',
         container: '#2d2d2d',
         card: '#ffffff',

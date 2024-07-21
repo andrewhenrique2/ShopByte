@@ -9,9 +9,12 @@ interface CardProps {
   title: string;
   oldPrice?: string;
   newPrice?: string;
-  installment?: string;
+  installment?: string; // Esta propriedade não será mais usada diretamente
   additionalImages?: (StaticImageData | string)[];
   isOnPromotion?: boolean;
+  processor?: string;
+  memory?: string;
+  storage?: string;
 }
 
 const Card = ({
@@ -21,11 +24,23 @@ const Card = ({
   title,
   oldPrice,
   newPrice,
-  installment,
   additionalImages = [],
   isOnPromotion = false,
+  processor,
+  memory,
+  storage,
 }: CardProps) => {
   const router = useRouter();
+
+  // Calcular o valor da parcela
+  const calculateInstallment = (price: string | undefined) => {
+    if (!price) return '';
+    
+    const priceValue = parseFloat(price.replace('R$ ', '').replace('.', '').replace(',', '.'));
+    const installmentValue = (priceValue / 12).toFixed(2).replace('.', ',');
+    
+    return `12x de R$ ${installmentValue} sem juros`;
+  };
 
   const handleCardClick = () => {
     router.push({
@@ -35,13 +50,17 @@ const Card = ({
         imageSrc: typeof imageSrc === 'string' ? imageSrc : imageSrc.src,
         oldPrice,
         newPrice,
-        installment,
         additionalImages: JSON.stringify(
           additionalImages.map(img => (typeof img === 'string' ? img : img.src))
         ),
+        processor,
+        memory,
+        storage,
       },
     });
   };
+
+  const installment = calculateInstallment(newPrice);
 
   return (
     <div
@@ -57,24 +76,48 @@ const Card = ({
           className="rounded-md"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
+        {additionalImages.length > 0 && (
+          <div className="flex justify-center items-center mb-4 space-x-2">
+            {additionalImages.map((src, index) => (
+              <div key={index} className="absolute bottom-[-30px] right-[-15px] w-[120px] h-[80px]">
+                <Image
+                  src={src}
+                  alt={`Additional ${index + 1}`}
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  className="rounded-md"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {additionalImages.length > 0 && (
-        <div className="flex justify-center items-center mb-4 space-x-2">
-          {additionalImages.map((src, index) => (
-            <div key={index} className="relative w-[100px] h-[100px]">
-              <Image
-                src={src}
-                alt={`Additional ${index + 1}`}
-                fill
-                style={{ objectFit: 'contain' }}
-                className="rounded-md"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="flex flex-col absolute left-4 top-4">
+        {processor && (
+          <div className="text-white px-2 font-black bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col height-10 text-start">
+            Processador{' '}
+            <span
+              className={`font-black text-[14px]  ${
+                processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
+              }`}
+            >
+              {processor}
+            </span>
+          </div>
+        )}
+        {memory && (
+          <div className="text-white px-2 text-start font-black bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col">
+            Memória <span className='text-pink font-black text-[14px]'>{memory}</span>
+          </div>
+        )}
+        {storage && (
+          <div className="text-white font-black text-start px-2 bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col">
+            Armazenamento <span className='text-cian font-black text-[14px]'>{storage}</span>
+          </div>
+        )}
+      </div>
 
       {isOnPromotion && (
         <div className="absolute top-0 left-0 m-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
