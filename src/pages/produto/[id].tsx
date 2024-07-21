@@ -4,24 +4,7 @@ import Image from 'next/image';
 import { StaticImageData } from 'next/image';
 import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus } from 'react-icons/fa';
 import bannerContainer from '../../../public/bannerContainer.jpg';
-
-interface ItemDetailProps {
-  id: string;
-  imageSrc: StaticImageData;
-  additionalImages: string[];
-  title: string;
-  oldPrice?: string;
-  newPrice?: string;
-  installment?: string;
-  promotionEndTime?: string;
-  releaseDate?: string;
-  isNew?: boolean;
-  isOnPromotion?: boolean;
-  processor?: string;  
-  memory?: string;     
-  storage?: string;   
-}
-
+import { motion } from 'framer-motion';
 
 
 const ItemDetail = ({
@@ -39,7 +22,7 @@ const ItemDetail = ({
   processor,
   memory,
   storage,
-}: ItemDetailProps) => {
+}: any) => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [showInstallments, setShowInstallments] = useState<boolean>(false);
 
@@ -110,12 +93,11 @@ const ItemDetail = ({
 
   return (
               
-    <div className="container mx-auto p-8 bg-card mt-14 rounded-md mb-28 ">
+    <div className="container mx-auto p-8 bg-white mt-14 rounded-md mb-28 ">
       
               {/* Imagem do produto*/}
-              
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="relative h-[500px] w-full ml-16 mt-10">
           <Image
             src={imageSrc}

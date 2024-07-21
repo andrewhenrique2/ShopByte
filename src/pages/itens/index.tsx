@@ -10,6 +10,8 @@ import intellogo from '../../../public/intel.png';
 import ryzenProcessor from '../../../public/RyzenProcessor.webp';
 import gabinete3 from '../../../public/gabinete3.jpg';
 import rtxbanner from '../../../public/rtxbanner.webp';
+import monitor from '../../../public/monitor.webp';	
+
 
 const products = [
   {
@@ -23,6 +25,8 @@ const products = [
     processor: "i5 10400F",
     memory: "8GB ",
     storage: "SSD 240GB",
+    additionalImages: [rtxbanner],
+
   },
   {
     id: "Gamer-T-Gamer",
@@ -46,6 +50,16 @@ const products = [
     newPrice: "R$ 5.500,00",
     installment: "",
     additionalImages: [nvidiaLogo],
+  },
+  {
+    id: "Monitor-Gamer-SuperFrame-Vision",
+    imageSrc: monitor,
+    imageAlt: "",
+    title: "Monitor Gamer SuperFrame Vision, 24 Pol, Full HD, IPS, FreeSync, 1ms, 165Hz, HDMI/DP, SFV2409S",
+    oldPrice: "R$ 2.067,59",
+    newPrice: "R$ 799,90",
+    installment: "",
+
   },
   {
     id: "Ryzen-7-5800X",

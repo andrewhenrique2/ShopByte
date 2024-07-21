@@ -9,12 +9,12 @@ interface CardProps {
   title: string;
   oldPrice?: string;
   newPrice?: string;
-  installment?: string; // Esta propriedade não será mais usada diretamente
   additionalImages?: (StaticImageData | string)[];
   isOnPromotion?: boolean;
   processor?: string;
   memory?: string;
   storage?: string;
+  installment?: string; 
 }
 
 const Card = ({
@@ -47,11 +47,11 @@ const Card = ({
       pathname: `/produto/${id}`,
       query: {
         title,
-        imageSrc: typeof imageSrc === 'string' ? imageSrc : imageSrc.src,
+        imageSrc: typeof imageSrc === 'string' ? imageSrc : (imageSrc as StaticImageData).src,
         oldPrice,
         newPrice,
         additionalImages: JSON.stringify(
-          additionalImages.map(img => (typeof img === 'string' ? img : img.src))
+          additionalImages.map(img => (typeof img === 'string' ? img : (img as StaticImageData).src))
         ),
         processor,
         memory,
@@ -77,9 +77,9 @@ const Card = ({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {additionalImages.length > 0 && (
-          <div className="flex justify-center items-center mb-4 space-x-2">
+          <div className="absolute bottom-[-30px] right-[-15px] flex space-x-2 overflow-x-auto">
             {additionalImages.map((src, index) => (
-              <div key={index} className="absolute bottom-[-30px] right-[-15px] w-[120px] h-[80px]">
+              <div key={index} className="w-[120px] h-[80px] flex-shrink-0">
                 <Image
                   src={src}
                   alt={`Additional ${index + 1}`}
