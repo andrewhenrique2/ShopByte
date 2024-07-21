@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Image  from 'next/image';
+import Image from 'next/image';
 import { StaticImageData } from 'next/image';
-import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus } from 'react-icons/fa';
+import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import bannerContainer from '../../../public/bannerContainer.jpg';
 
@@ -98,10 +98,10 @@ const ItemDetail = ({
   };
 
   return (
-    <div className="container mx-auto p-8 bg-card mt-5">
+    <div className="container mx-auto p-8 bg-card mt-14 rounded-md mb-28 ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="relative h-[500px] w-full mb-4">
-                  <Image
+          <Image
             src={imageSrc}
             alt="Imagem do produto"
             fill
@@ -112,9 +112,10 @@ const ItemDetail = ({
 
         <div className="flex flex-col space-y-4 text-gray-200 bg-container rounded-md p-4 w-[80%] mx-auto">
           <Image 
-          src={bannerContainer}
-           alt="Banner de promoção" 
-           className="rounded-[6px] w-full" />
+            src={bannerContainer}
+            alt="Banner de promoção" 
+            className="rounded-[6px] w-full" 
+          />
 
           <div className="flex flex-col space-y-4 mb-4">
             <div className="flex w-full mb-4">
@@ -151,6 +152,44 @@ const ItemDetail = ({
               )}
             </div>
 
+
+{/* Novos ícones adicionados aqui */}
+<div className="flex flex-col items-start gap-4 mb-4">
+  <div className="flex gap-4">
+
+  <span className="flex items-center gap-2 text-[14px] text-card font-bold ">
+    <FaStar className="text-yellow-500 mb-0.5" />
+    NOVO
+  </span>
+
+  <span className="flex items-center gap-2 text-[14px] text-card font-semibold">
+    <FaCalendar className="text-yellow-500 mb-0.5" />
+    12 meses de garantia
+  </span>
+
+  </div>
+
+  <div className="flex items-center gap-2 text-[14px] text-card font-bold">
+  <span className="flex items-center gap-2 text-[14px] text-card">
+    
+    <FaBolt className="text-green-500 mb-0.5" />
+      PROMOÇÃO
+  </span>
+  <div>
+      <span className="relative group flex items-center gap-2 text-[14px] text-card">
+        <FaInfoCircle className="text-gray-400 mb-0.5" />
+        <span className="absolute left-0 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
+          Disponível no estoque
+        </span>
+      </span>
+    </div>
+
+  
+</div>
+</div>
+
+
+
             <div className="space-y-2 mb-4">
               {isOnPromotion && (
                 <span className="flex items-center gap-2 text-[14px] text-card">
@@ -161,32 +200,39 @@ const ItemDetail = ({
             </div>
 
             <div className="space-y-4 mb-4">
+              <div className="">
               <div className="flex items-center gap-2 text-card">
-                <FaBarcode className="text-gray-500" />
-                <span className="text-card line-through text-[16px]">De: {oldPrice}</span>
+                <FaBarcode size={32} className="text-gray-500" />
+                <span className="text-card text-[17.5px]">
+                <span className=""> De:</span>
+                <span className="line-through pl-1"> {oldPrice}</span>
+                <span className=""> por:</span>
+              </span>              </div>
+              <div className="flex items-center gap-2 text-card">
+                <span className="text-green-400 font-black text-[24px] ml-11"> {formatCurrency(productPrice)}</span>
               </div>
-              <div className="flex items-center gap-2 text-card">
-                <FaCreditCard className="text-gray-500" />
-                <span className="text-card font-black text-[20px]">Por: {formatCurrency(productPrice)}</span>
+                <span className="text-[14px] ml-11">À vista com 15% de desconto no boleto ou pix</span>
               </div>
               <div className="text-card">
-                <span className="text-[14px]">À vista com 15% de desconto no boleto ou pix</span>
               </div>
 
-                            <div className="text-card mb-8">
-                <span className="text-[20px] font-bold">{formatCurrency(productPrice)}</span>
-                <span className="text-[16px] px-1">ou 12x de {formatCurrency(parseFloat(lastInstallmentValue))} sem juros no cartão</span>
+              <div className="text-card mb-8">
+              <div className="flex text-center items-center">
+              <FaCreditCard size={32} className="text-gray-500 mr-4" />
+                <span className="text-[20px] font-bold text-orange-500">{formatCurrency(productPrice)}</span>
+                </div>
+                <span className="text-[16px] px-1 ml-11"> 12x de {formatCurrency(parseFloat(lastInstallmentValue))} sem juros no cartão</span>
                 <button 
-                  className="flex items-center gap-2 text-blue-500 font-semibold" 
+                  className="flex items-center gap-2 text-blue-500 font-semibold ml-11" 
                   onClick={() => setShowInstallments(!showInstallments)}
                 >
                   <FaPlus />
-                  Ver Parcelamento
+                  VER PARCELAMENTO
                 </button>
                 <button className="flex items-center justify-center bg-green-500 text-white py-2 px-4 rounded-md w-full mt-4">
                   Comprar com Desconto
-                  <FaPlus className="ml-2" />
-                </button>
+                  <FaCartPlus className='ml-2' />
+                  </button>
               </div>
               <div className="text-card">
                 {showInstallments && (
@@ -194,26 +240,20 @@ const ItemDetail = ({
                     <div className="space-y-2">
                       {installments.slice(0, 6).map((inst) => (
                         <li key={inst.number} className="flex justify-between text-[14px] text-card">
-                          {inst.number}x parcela
-                          <span>{formatCurrency(parseFloat(inst.value))}</span>
+                          {inst.number}x {formatCurrency(parseFloat(inst.value))}
                         </li>
                       ))}
                     </div>
                     <div className="space-y-2">
                       {installments.slice(6).map((inst) => (
                         <li key={inst.number} className="flex justify-between text-[14px] text-card">
-                          {inst.number}x parcela
-                          <span>{formatCurrency(parseFloat(inst.value))}</span>
+                          {inst.number}x {formatCurrency(parseFloat(inst.value))}
                         </li>
                       ))}
                     </div>
                   </div>
                 )}
               </div>
-
-       
-
-              
             </div>
           </div>
         </div>

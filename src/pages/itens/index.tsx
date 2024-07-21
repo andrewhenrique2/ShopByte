@@ -1,8 +1,8 @@
 import Card from '../../components/Card';
 import gabinete2 from '../../../public/gabinete2.jpg';
-import geforce from '../../../public/geforce.webp';
-import RYZEN from '../../../public/Ryzen.png';
-import INTEL from '../../../public/intel.png';
+import geforce from '../../../public/Gforce.webp';
+import RYZEN from '../../../public/ryzen7.jpg';
+import INTEL from '../../../public/intel.jpg';
 import gabinete1 from '../../../public/pc.jpg';
 
 
@@ -11,7 +11,7 @@ export default function Itens() {
     <section className="mt-24 mx-auto p-8 bg-bgitens" style={{ maxWidth: 'calc(100% - 300px)' }}>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         <Card
-          id="produto1"
+          id="PcX-Home"
           imageSrc={gabinete2}
           imageAlt="Computador X-Home"
           title="Computador X-Home Ryzen 5 5600X / NVIDIA GeForce RTX 3060 / 16GB DDR4 / SSD 480GB"
@@ -20,7 +20,7 @@ export default function Itens() {
           installment="10x de R$ 350,00 sem juros"
         />
         <Card
-          id="produto2"
+          id="RTX-3080-10GB"
           imageSrc={geforce}
           imageAlt="GeForce RTX"
           title="GeForce RTX 3080 10GB"
@@ -29,7 +29,7 @@ export default function Itens() {
           installment="12x de R$ 460,00 sem juros"
         />
         <Card
-          id="produto3"
+          id="Ryzen-7-5800X"
           imageSrc={RYZEN}
           imageAlt="Ryzen 7 5800X"
           title="AMD Ryzen 7 5800X"

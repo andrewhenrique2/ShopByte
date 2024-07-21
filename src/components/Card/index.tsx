@@ -88,10 +88,10 @@ const Card = ({
         <span className="text-bg text-sm line-through mb-1">De: {oldPrice}</span>
       )}
       {newPrice && (
-        <span className="text-bg text-lg mb-1">Por: {newPrice}</span>
+        <span className="text-verdao font-black text-lg mb-1">{newPrice} <span className='text-sm font-sans'>à vista</span></span>
       )}
       {installment && (
-        <span className="text-bg text-sm">{installment}</span>
+        <span className="text-gray-700 text-sm">{installment}</span>
       )}
 
       <div className="absolute inset-x-0 bottom-[-40px] flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

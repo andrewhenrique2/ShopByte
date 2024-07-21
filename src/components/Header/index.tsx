@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaHeart, FaShoppingCart, FaSearch, FaUserCircle } from 'react-icons/fa';
-import logo from '../../../public/logo.svg';
+import logo from '../../../public/shopbyte.jpg';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,20 +50,26 @@ const Header: React.FC = () => {
   return (
     <header
       ref={headerRef}
-      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md"
+      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px]"
     >
       <div className="container mx-auto flex items-center justify-between px-8">
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Link href='/'>
+            <Link href='/' className='flex items-center gap-2'>
               <Image 
                 src={logo} 
                 alt="Logo" 
-                width={200} // Defina o tamanho fixo em pixels
-                height={200} // Defina o tamanho fixo em pixels
+                width={80} // Aumente o tamanho da largura
+                height={120} // Aumente o tamanho da altura
                 style={{ objectFit: 'contain' }} 
-              />
+                />
+            <span className='text-3xl' style={{ textShadow: '4px 4px 4px rgba(0, 0, 0, 0.5)' }}>
+              Shop
+              <span className='text-2xl text-orange-700' style={{ textShadow: '4px 4px 4px rgba(0, 0, 0, 0.5)' }}>
+                Byte
+              </span>
+            </span>       
             </Link>
+            <div className="flex items-center space-x-4">
+          <div className="relative">
           </div>
         </div>
 
