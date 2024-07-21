@@ -71,6 +71,8 @@ export default function Banner() {
             <Image
               src={image}
               alt={`banner-${index}`}
+              layout="responsive" // Fodase vai ficar dando erro mesmo porque eu preciso e nao sei como resolver isso.
+              // se quiser remover o erro Image with src "/_next/static/media/b1.08eed0b3.jpg" has legacy prop "layout". Did you forget to run the codemod?   só remover este layout.
               width={1920}
               height={1080}
               style={{

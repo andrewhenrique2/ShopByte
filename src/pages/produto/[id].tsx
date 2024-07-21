@@ -172,7 +172,8 @@ const ItemDetail = ({
               <div className="text-card">
                 <span className="text-[14px]">À vista com 15% de desconto no boleto ou pix</span>
               </div>
-              <div className="text-card mb-8">
+
+                            <div className="text-card mb-8">
                 <span className="text-[20px] font-bold">{formatCurrency(productPrice)}</span>
                 <span className="text-[16px] px-1">ou 12x de {formatCurrency(parseFloat(lastInstallmentValue))} sem juros no cartão</span>
                 <button 
@@ -189,16 +190,30 @@ const ItemDetail = ({
               </div>
               <div className="text-card">
                 {showInstallments && (
-                  <ul className="mt-2 space-y-2">
-                    {installments.map((inst) => (
-                      <li key={inst.number} className="flex justify-between text-[14px] text-card">
-                        {inst.number}x parcela
-                        <span>{formatCurrency(parseFloat(inst.value))}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="grid grid-cols-2 gap-4 mt-2">
+                    <div className="space-y-2">
+                      {installments.slice(0, 6).map((inst) => (
+                        <li key={inst.number} className="flex justify-between text-[14px] text-card">
+                          {inst.number}x parcela
+                          <span>{formatCurrency(parseFloat(inst.value))}</span>
+                        </li>
+                      ))}
+                    </div>
+                    <div className="space-y-2">
+                      {installments.slice(6).map((inst) => (
+                        <li key={inst.number} className="flex justify-between text-[14px] text-card">
+                          {inst.number}x parcela
+                          <span>{formatCurrency(parseFloat(inst.value))}</span>
+                        </li>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
+
+       
+
+              
             </div>
           </div>
         </div>
