@@ -8,6 +8,12 @@
  <a href="https://skillicons.dev" target="_blank" rel="noopener noreferrer">
     <img src="https://skillicons.dev/icons?i=react,nextjs,typescript,javascript,tailwind,html,css,git,github,vercel" alt="My Skills" style="margin: 1rem;"/>
   </a>
+<br/>
+
+- [Acesse Otakulandia](https://shop-byte.vercel.app)
+
+
+  
 
 </div>
 
