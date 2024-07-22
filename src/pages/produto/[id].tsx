@@ -1,20 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { StaticImageData } from 'next/image';
 import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus } from 'react-icons/fa';
 import bannerContainer from '../../../public/bannerContainer.jpg';
-import { motion } from 'framer-motion';
-
 
 const ItemDetail = ({
-  id,
   imageSrc,
-  additionalImages,
+  moreImages,
   title,
   oldPrice,
   newPrice,
-  installment,
   promotionEndTime,
   releaseDate,
   isNew,
@@ -25,6 +19,7 @@ const ItemDetail = ({
 }: any) => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [showInstallments, setShowInstallments] = useState<boolean>(false);
+  const [mainImage, setMainImage] = useState<string>(imageSrc); // Estado para a imagem principal
 
   // Função para formatar moeda
   const formatCurrency = (value: number) => {
@@ -90,50 +85,69 @@ const ItemDetail = ({
     const seconds = Math.floor((ms % (1000 * 60)) / 1000);
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   };
+  
+
+
 
   return (
-              
-    <div className="container mx-auto p-8 bg-white mt-14 rounded-md mb-28 ">
-      
-              {/* Imagem do produto*/}
-
+    <div className="container mx-auto p-8 bg-white max-w-[1600px] mt-14 rounded-md mb-28">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="relative h-[500px] w-full ml-16 mt-10">
+        <div className="relative h-[500px] w-full ml-28 mt-8">
+          {/* Imagem principal */}
           <Image
-            src={imageSrc}
-            alt="Imagem do produto"
-            fill
-            style={{ objectFit: 'contain' }}
+            src={mainImage}
+            alt={title}
+            layout="fill"
+            objectFit="contain"
             className="rounded-md"
           />
 
+          {/* Imagens adicionais do produto */}
+          <div className="absolute flex flex-col items-center justify-start bottom-4 right-[+115%] translate-x-[+100%] max-h-[550px] overflow-y-auto  ">
+            {moreImages.map((imgSrc: string, index: number) => (
+              <button
+              onClick={() => setMainImage(imgSrc)} // Atualiza a imagem principal ao clicar
+                key={index}
+                className="relative w-[120px] h-[150px] overflow-hidden mb-2 transition-transform transform hover:scale-105 hover:opacity-80"
+              >
+                <Image
+                  src={imgSrc}
+                  alt={`Imagem adicional ${index + 1}`}
+                  layout="responsive"
+                  width={120}
+                  height={80}
+                  style={{ objectFit: 'contain' }}
+                  className="rounded-md cursor-pointer fade-in"
+                />
+              </button>
+            ))}
+          </div>
 
-            {/* informações adicionais do prooduto */}
-
-    <div className="flex flex-col absolute left-16 top-16 ">
-        {processor && (
-          <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10 ">
-            Processador{' '}
-            <span
-              className={`font-black text-[18px] ${
-                processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
-              }`}
-            >
-              {processor}
-            </span>
+          {/* Informações adicionais do produto */}
+          <div className="flex flex-col absolute left-16 top-16">
+            {processor && (
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10">
+                Processador{' '}
+                <span
+                  className={`font-black text-[18px] ${
+                    processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
+                  }`}
+                >
+                  {processor}
+                </span>
+              </div>
+            )}
+            {memory && (
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
+                Memória <span className='text-pink font-black text-[20px]'>{memory}</span>
+              </div>
+            )}
+            {storage && (
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
+                Armazenamento <span className='text-cian font-black text-[20px]'>{storage}</span>
+              </div>
+            )}
           </div>
-        )}
-        {memory && (
-          <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
-            Memória <span className='text-pink font-black text-[20px]'>{memory}</span>
-          </div>
-        )}
-        {storage && (
-          <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
-            Armazenamento <span className='text-cian font-black text-[20px]'>{storage}</span>
-          </div>
-        )}
-        </div>
         </div>
 
 
@@ -155,12 +169,12 @@ const ItemDetail = ({
                 </div>
               </div>
               <div className="flex items-center justify-center border border-0.01 border-black rounded-md rounded-s-none space-x-4 w-full">
-                <div className="flex flex-col items-center justify-center">
-                  <span className="text-yellow-500 text-[14px] font-bold">Fim da Promoção</span>
-                  <span className="flex flex-col items-center justify-center text-white text-[14px]">
-                    {timeLeft > 0 ? formatTime(timeLeft) : 'Promoção Encerrada'}
-                  </span>
-                </div>
+              <div className="flex flex-col items-center justify-center">
+      <span className="text-yellow-500 text-[14px] font-bold">Fim da Promoção</span>
+      <span className="flex flex-col items-center justify-center text-white text-[14px]">
+        {timeLeft > 0 ? formatTime(timeLeft) : 'Promoção Encerrada'}
+      </span>
+    </div>
               </div>
             </div>
 
@@ -218,14 +232,7 @@ const ItemDetail = ({
           </div>
 
 
-            <div className="space-y-2 mb-4">
-              {isOnPromotion && (
-                <span className="flex items-center gap-2 text-[14px] text-card">
-                  <FaBolt className="text-green-500 mb-0.5" />
-                  EM PROMOÇÃO
-                </span>
-              )}
-            </div>
+         
 
             <div className="space-y-4 mb-4">
               <div className="">
@@ -299,13 +306,13 @@ const ItemDetail = ({
  {/*  PROPS PEGANDO DE CARD E ITENS */}
 
 import { GetServerSideProps } from 'next';
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
   const {
     id = '',
     imageSrc = '',
     additionalImages = [],
+    moreImages = [],
     title = '',
     oldPrice = '',
     newPrice = '',
@@ -318,12 +325,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     memory = '',   
     storage = '',   
   } = query;
+  console.log("Query Params:", query);
 
   return {
     props: {
       id: id as string,
       imageSrc: imageSrc as string,
-      additionalImages: Array.isArray(additionalImages) ? additionalImages : [],
+      additionalImages: Array.isArray(additionalImages) ? additionalImages : JSON.parse(additionalImages as string),
+      moreImages: Array.isArray(moreImages) ? moreImages : JSON.parse(moreImages as string),
       title: title as string,
       oldPrice: oldPrice as string,
       newPrice: newPrice as string,
@@ -340,4 +349,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default ItemDetail;
+
+
 

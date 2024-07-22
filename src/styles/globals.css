@@ -19,7 +19,6 @@ body, input, textarea, button {
   font-weight: 400;
 }
 
-
 :root {
   --header-height: 100px; /* Ajuste conforme necessário */
 }
@@ -27,3 +26,28 @@ body, input, textarea, button {
 header {
   height: var(--header-height);
 }
+
+/* Animação Fogo */
+@keyframes fire {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.fire-background {
+  background: linear-gradient(45deg, #ff4500, #ff8c00, #ffd700, #ff4500, #ff8c00);
+  background-size: 400% 400%;
+  animation: fire 10s ease infinite;
+}
+
+
+
+
+
+

@@ -1,6 +1,31 @@
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Image, { StaticImageData } from 'next/image';
+import { StaticImageData } from 'next/image';
 import { FaBolt } from 'react-icons/fa';
+import Image from 'next/image';
+
+// Interface para o tipo de tempo restante
+interface TimeRemaining {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+const getRemainingTime = (endTime: string): TimeRemaining | null => {
+  const endDate = new Date(endTime).getTime();
+  const now = new Date().getTime();
+  const distance = endDate - now;
+
+  if (distance < 0) return null;
+
+  return {
+    days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+    seconds: Math.floor((distance % (1000 * 60)) / 1000),
+  };
+};
 
 interface CardProps {
   id: string;
@@ -10,11 +35,12 @@ interface CardProps {
   oldPrice?: string;
   newPrice?: string;
   additionalImages?: (StaticImageData | string)[];
+  moreImages?: (StaticImageData | string)[];
   isOnPromotion?: boolean;
+  promotionEndTime?: string;
   processor?: string;
   memory?: string;
   storage?: string;
-  installment?: string; 
 }
 
 const Card = ({
@@ -25,20 +51,36 @@ const Card = ({
   oldPrice,
   newPrice,
   additionalImages = [],
+  moreImages = [],
   isOnPromotion = false,
+  promotionEndTime,
   processor,
   memory,
   storage,
 }: CardProps) => {
   const router = useRouter();
+  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null);
 
-  // Calcular o valor da parcela
+  useEffect(() => {
+    if (promotionEndTime) {
+      const updateRemainingTime = () => {
+        const time = getRemainingTime(promotionEndTime);
+        setTimeRemaining(time);
+      };
+
+      updateRemainingTime();
+      const interval = setInterval(updateRemainingTime, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [promotionEndTime]);
+
   const calculateInstallment = (price: string | undefined) => {
     if (!price) return '';
-    
+
     const priceValue = parseFloat(price.replace('R$ ', '').replace('.', '').replace(',', '.'));
     const installmentValue = (priceValue / 12).toFixed(2).replace('.', ',');
-    
+
     return `12x de R$ ${installmentValue} sem juros`;
   };
 
@@ -53,9 +95,14 @@ const Card = ({
         additionalImages: JSON.stringify(
           additionalImages.map(img => (typeof img === 'string' ? img : (img as StaticImageData).src))
         ),
+        moreImages: JSON.stringify(
+          moreImages.map(img => (typeof img === 'string' ? img : (img as StaticImageData).src))
+        ),
+        isOnPromotion,
         processor,
         memory,
         storage,
+        promotionEndTime,
       },
     });
   };
@@ -67,18 +114,18 @@ const Card = ({
       onClick={handleCardClick}
       className="relative bg-card rounded-md p-4 flex flex-col items-center text-center mb-12 group shadow-sm cursor-pointer"
     >
-      <div className="relative w-full h-[250px] mb-4">
+      <div className="relative w-full h-[250px] mb-6">
         <Image
           src={imageSrc}
           alt={imageAlt}
           fill
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'contain' }}
           className="rounded-md"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {additionalImages.length > 0 && (
           <div className="absolute bottom-[-30px] right-[-15px] flex space-x-2 overflow-x-auto">
-            {additionalImages.map((src, index) => (
+            {additionalImages.map((src: StaticImageData | string, index: number) => (
               <div key={index} className="w-[120px] h-[80px] flex-shrink-0">
                 <Image
                   src={src}
@@ -96,12 +143,10 @@ const Card = ({
 
       <div className="flex flex-col absolute left-4 top-4">
         {processor && (
-          <div className="text-white px-2 font-black bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col height-10 text-start">
+          <div className="text-white px-2 font-black bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col text-start">
             Processador{' '}
             <span
-              className={`font-black text-[14px]  ${
-                processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
-              }`}
+              className={`font-black text-[14px] ${processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'}`}
             >
               {processor}
             </span>
@@ -120,21 +165,26 @@ const Card = ({
       </div>
 
       {isOnPromotion && (
-        <div className="absolute top-0 left-0 m-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+        <div className="absolute top-0 right-0 m-4 fire-background text-white text-xs font-bold px-2 py-1 rounded">
           <FaBolt className="inline mr-1" />
           Promoção
+          {promotionEndTime && timeRemaining && (
+            <div className="mt-2 text-xs">
+              {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m {timeRemaining.seconds}s
+            </div>
+          )}
         </div>
       )}
 
-      <h2 className="text-bg text-sm mb-2">{title}</h2>
+      <h2 className="text-bg text-[16px] font-sans font-semibold mb-2">{title}</h2>
       {oldPrice && (
-        <span className="text-bg text-sm line-through mb-1">De: {oldPrice}</span>
+        <span className="text-bg text-[16px] line-through mb-1 ">De: {oldPrice}</span>
       )}
       {newPrice && (
-        <span className="text-verdao font-black text-lg mb-1">{newPrice} <span className='text-sm font-sans'>à vista</span></span>
+        <span className="text-verdao font-black text-[25px] mb-1">{newPrice} <span className='text-sm font-sans'>à vista</span></span>
       )}
       {installment && (
-        <span className="text-gray-700 text-sm">{installment}</span>
+        <span className="text-gray-700 text-[16px]">{installment}</span>
       )}
 
       <div className="absolute inset-x-0 bottom-[-40px] flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

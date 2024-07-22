@@ -50,7 +50,7 @@ const Header: React.FC = () => {
   return (
     <header
       ref={headerRef}
-      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px]"
+      className=" container bg-bg text-white py-4 pl-24 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px]"
     >
       <div className="container mx-auto flex items-center justify-between px-8">
             <Link href='/' className='flex items-center gap-2'>

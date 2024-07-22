@@ -1,4 +1,3 @@
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -28,6 +27,16 @@ module.exports = {
         lg: '1.25rem',
         xl: '1.5rem',
         '2xl': '2rem',
+      },
+      screens: {
+        '4xl': '1600px',
+        '5xl': '1920px',
+        '6xl': '2560px',
+      },
+      gridTemplateColumns: {
+        '4xl': 'repeat(6, minmax(0, 1fr))',
+        '5xl': 'repeat(7, minmax(0, 1fr))',
+        '6xl': 'repeat(8, minmax(0, 1fr))',
       },
     },
   },
