@@ -9,10 +9,11 @@
     <img src="https://skillicons.dev/icons?i=react,nextjs,typescript,javascript,tailwind,html,css,git,github,vercel" alt="My Skills" style="margin: 1rem;"/>
   </a>
 <br/>
+<br/>
 
-- [Acesse Otakulandia](https://shop-byte.vercel.app)
+# [Acesse ShopByte Live](https://shop-byte.vercel.app)
 
-
+<br/>
   
 
 </div>
