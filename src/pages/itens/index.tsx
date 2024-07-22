@@ -1,6 +1,7 @@
 import Card from '../../components/Card';
 import AMD from '../../../public/AMD.png';
 import umquatro from '../../../public/144.png';
+import aorus from '../../../public/aorus.png';
 import gabinete2 from '../../../public/gabinete2.jpg';
 import geforce from '../../../public/Gforce.webp';
 import ryzen from '../../../public/ryzen7.jpg';
@@ -39,7 +40,16 @@ import pad3 from '../../../public/pad3.jpg';
 import mouse from '../../../public/mouse1.jpg';  
 import mouse2 from '../../../public/mouse2.jpg';  
 import mouse3 from '../../../public/mouse3.jpg';
-
+import cadeira from '../../../public/caidera.webp';
+import cadeira2 from '../../../public/caidera2.webp';
+import cadeira3 from '../../../public/cadeira3.webp';
+import fa from '../../../public/fa.jpg';
+import fa2 from '../../../public/fa2.jpg';
+import fa3 from '../../../public/fa3.jpg';
+import fonte from '../../../public/fonte.webp';
+import fonte2 from '../../../public/fonte2.webp';
+import fonte3 from '../../../public/fonte3.webp';
+import fonte4 from '../../../public/fonte3.webp';
 
 
 
@@ -97,7 +107,6 @@ const products = [
   },
 
 
-
   {
     id: "Teclado-Gamer-Mecânico-Akko-5075S",
     imageSrc: teclado,
@@ -124,6 +133,16 @@ const products = [
     additionalImages: [rtxbanner],
 
 
+  },
+  {
+    id: "Fonte Gigabyte Aorus AP1200PM",
+    imageSrc: fonte,
+    imageAlt: "Fonte Gigabyte Aorus AP1200PM",
+    title: "Fonte Gigabyte Aorus AP1200PM 1200W, 80 PLUS Platinum, PFC Ativo, Full Modular, GP-AP1200PM",
+    oldPrice: "R$ 3.259,90 ",
+    newPrice: "R$ 2.180,00",
+    additionalImages: [aorus],
+    moreImages: [fonte, fonte2, fonte3, fonte4,],
   },
 
 
@@ -152,6 +171,26 @@ const products = [
     promotionEndTime: "2024-09-01T23:59:59Z",
     moreImages: [ mouse,  mouse2, mouse3,],
 
+  },
+
+  {
+    id: "Cadeira Gamer SuperFrame ",
+    imageSrc: cadeira,
+    imageAlt: "Cadeira Gamer SuperFrame Hybrid, Mesh, Altura Ajustável, Preta",
+    title: "Cadeira Gamer SuperFrame Hybrid, Mesh, Altura Ajustável, Preta",
+    oldPrice: "R$ 799,99 ",
+    newPrice: "R$ 559,90",
+    moreImages: [cadeira, cadeira2, cadeira3,],
+  },
+
+  {
+    id: "Kit Fan Com 3 Unidades Gamer Ninja",
+    imageSrc: fa,
+    imageAlt: "Cadeira Gamer SuperFrame Hybrid, Mesh, Altura Ajustável, Preta",
+    title: "Kit Fan Com 3 Unidades Gamer Ninja Fuuton, ARGB, 120mm, Black",
+    oldPrice: "R$ 249,99  ",
+    newPrice: "R$ 79,90",
+    moreImages: [fa, fa2, fa3,],
   },
 
   
