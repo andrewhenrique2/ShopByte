@@ -15,10 +15,10 @@
 
 <br/>
   
+![shop-byte vercel app_](https://github.com/user-attachments/assets/85fb1426-b590-4fc0-b2bb-9108773d300d)
 
 </div>
 
-![localhost_3000_ (3)](https://github.com/user-attachments/assets/78fae8fd-5371-42ac-b120-34b5d9aff517)
 
 <div align="center">
 
