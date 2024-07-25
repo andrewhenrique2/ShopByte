@@ -1,29 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaHeart, FaShoppingCart, FaSearch, FaUserCircle } from 'react-icons/fa';
+import { FaHeart, FaShoppingCart, FaSearch, FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../../public/shopbyte.jpg';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLHeadingElement | null>(null);
-
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-    setIsMenuOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    setTimeout(() => {
-      if (!isHovering) {
-        setIsMenuOpen(false);
-      }
-    }, 100);
-  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -41,42 +26,36 @@ const Header: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isHovering) {
-      setIsMenuOpen(false);
-    }
-  }, [isHovering]);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <header
       ref={headerRef}
-      className="bg-bg text-white py-4 pl-24 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px]"
+      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px]"
     >
-      <div className="container mx-auto flex items-center justify-between px-8">
-            <Link href='/' className='flex items-center gap-2'>
-              <Image 
-                src={logo} 
-                alt="Logo" 
-                width={80} // Aumente o tamanho da largura
-                height={120} // Aumente o tamanho da altura
-                style={{ objectFit: 'contain' }} 
-                />
-            <span className='text-3xl' style={{ textShadow: '4px 4px 4px rgba(0, 0, 0, 0.5)' }}>
-              Shop
-              <span className='text-2xl text-orange-700' style={{ textShadow: '4px 4px 4px rgba(0, 0, 0, 0.5)' }}>
-                Byte
-              </span>
-            </span>       
-            </Link>
-            <div className="flex items-center space-x-4">
-          <div className="relative">
-          </div>
-        </div>
+      <div className="container mx-auto flex items-center justify-between px-4 md:px-8 lg:px-32">
+        <Link href='/' className='flex items-center gap-2'>
+          <Image 
+            src={logo} 
+            alt="Logo" 
+            width={80} 
+            height={120} 
+            style={{ objectFit: 'contain' }} 
+          />
+          <span className='hidden md:flex text-3xl' style={{ textShadow: '4px 4px 4px rgba(0, 0, 0, 0.5)' }}>
+            Shop
+            <span className='text-2xl text-orange-700' style={{ textShadow: '4px 4px 4px rgba(0, 0, 0, 0.5)' }}>
+              Byte
+            </span>
+          </span>
+        </Link>
 
         <div className="flex-grow mx-4 flex justify-center">
           <div className="flex w-full max-w-[800px]">
             <input 
-              className='border border-gray-300 rounded-l-md rounded-r-none p-2 text-black w-full focus:outline-none'
+              className='border border-gray-300 rounded-l-md rounded-r-none p-1 text-black w-full text-sm focus:outline-none'
               placeholder='Pesquise o seu produto'
               type="text"
               id="search"
@@ -87,9 +66,9 @@ const Header: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center space-x-4 mr-20">
+        <div className="hidden md:flex items-center space-x-4">
           <FaUserCircle size={32} className="cursor-pointer"/>
-          <div className="flex-col items-center space-x-1 hidden md:flex">
+          <div className="flex-col items-center space-x-1">
             <div className="text-xs flex items-start py-2">
               <span className="mx-1 text-[1.5em]">Olá,</span>
               <Link href="/login" className="hover:text-link text-[16px] font-black">Entre</Link>
@@ -106,7 +85,36 @@ const Header: React.FC = () => {
             <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-orange-500 rounded-full"></span>
           </Link>
         </div>
+
+        <div className="md:hidden flex items-center">
+          <button onClick={toggleMenu} className="focus:outline-none">
+            {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
+        </div>
       </div>
+
+      {isMenuOpen && (
+        <div ref={menuRef} className="md:hidden bg-bg text-white px-4 py-2 absolute top-[80px] left-0 w-full shadow-md z-40">
+          <div className="flex flex-col space-y-4">
+            <input 
+              className='border border-gray-300 rounded-md p-2 text-black w-full text-sm focus:outline-none'
+              placeholder='Pesquise o seu produto'
+              type="text"
+              id="search"
+            />
+            <Link href="/login" className="hover:text-link text-[16px] font-black">Entre</Link>
+            <Link href="/cadastro" className="hover:text-link text-[16px] font-black">Cadastre-se</Link>
+            <Link href="/favorites" className="hover:text-link flex items-center space-x-2">
+              <FaHeart size={24}/>
+              <span>Favoritos</span>
+            </Link>
+            <Link href="/cart" className="hover:text-link flex items-center space-x-2">
+              <FaShoppingCart size={24}/>
+              <span>Carrinho</span>
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

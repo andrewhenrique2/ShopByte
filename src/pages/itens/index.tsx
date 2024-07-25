@@ -227,7 +227,7 @@ const products = [
 
 const Itens = () => {
   return (
-    <section className="mt-24 mx-auto p-8 bg-bgitens" style={{ maxWidth: 'calc(100% - 300px)' }}>
+    <section className="mt-24 mx-auto p-8 bg-bgitens" style={{ maxWidth: 'calc(100% - 50px)' }}>
     <div className="grid gap-4 p-4    lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 6xl:grid-cols-8 ">
     {products.map((product) => (
           <Card 
