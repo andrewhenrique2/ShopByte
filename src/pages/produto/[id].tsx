@@ -129,26 +129,27 @@ const ItemDetail = ({
 
 
   return (
-    <div className="container mt- mx-auto p-8 bg-white max-w-[1600px] mt-14 rounded-md mb-28">
+    <div className="container mx-auto p-8 bg-white max-w-screen-2xl rounded-md m-24">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="relative h-[500px] w-full flex justify-center items-center">
+        <div className="relative h-full w-full flex justify-center items-center">
           {/* Imagem principal */}
-          <div className="relative left-0 md:left-24 h-full w-full max-w-[600px]">
+          <div className="relative  left-0 
+          md:left-24 h-full w-full max-w-[500px] below-1500:max-w-[300px] below-1000:max-w-[200px]">
             <Image
               src={mainImage}
               alt={title}
               layout="fill"
               objectFit="contain"
-              className="rounded-m"
+              className="rounded-m "
             />
           </div>
     
           {/* Imagens adicionais do produto */}
           {isMobile ? (
-            <div className="w-full mt-4">
+            <div className="w-full mt-[-200px]">
               <Slider {...carouselSettings}>
                 {moreImages.map((imgSrc: string, index: number) => (
-                  <div key={index} className="px-2">
+                  <div key={index} className="px-2 mt-44">
                     <button
                       onClick={() => setMainImage(imgSrc)} // Atualiza a imagem principal ao clicar
                       className="relative w-full overflow-hidden mb-2 transition-transform transform hover:scale-105 hover:opacity-80"

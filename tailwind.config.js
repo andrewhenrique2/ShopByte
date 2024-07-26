@@ -29,6 +29,8 @@ module.exports = {
         '2xl': '2rem',
       },
       screens: {
+        'below-1500': {'max': '1370px'},
+        'below-1000': {'max': '1000px'},
         '4xl': '1600px',
         '5xl': '1920px',
         '6xl': '2560px',
