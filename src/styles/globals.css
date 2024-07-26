@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 
+
+
 /* Reset CSS */
 * {
   margin: 0;
@@ -47,6 +49,7 @@ header {
   background-size: 400% 400%;
   animation: fire 10s ease infinite;
 }
+
 
 
 

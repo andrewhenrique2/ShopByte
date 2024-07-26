@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus } from 'react-icons/fa';
 import bannerContainer from '../../../public/bannerContainer.jpg';
+import Slider from 'react-slick'; // Importa o componente Slider do slick-carousel
+import 'slick-carousel/slick/slick.css'; // Importa o CSS do slick-carousel
+import 'slick-carousel/slick/slick-theme.css';
 
 // Define o tipo para os dados de parcelamento
 
@@ -22,6 +25,8 @@ const ItemDetail = ({
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [showInstallments, setShowInstallments] = useState<boolean>(false);
   const [mainImage, setMainImage] = useState<string>(imageSrc); // Estado para a imagem principal
+  const [isMobile, setIsMobile] = useState<boolean>(false); // Estado para verificar se é mobile
+
 
   // Função para formatar moeda
   const formatCurrency = (value: number) => {
@@ -87,72 +92,129 @@ const ItemDetail = ({
     const seconds = Math.floor((ms % (1000 * 60)) / 1000);
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   };
-  
 
+    // Hook para verificar o tamanho da tela
+    useEffect(() => {
+      const handleResize = () => setIsMobile(window.innerWidth < 768);
+      handleResize(); // Verifica o tamanho inicial da tela
+      window.addEventListener('resize', handleResize); // Adiciona um listener para redimensionamento
+      return () => window.removeEventListener('resize', handleResize); // Limpa o listener
+    }, []);
+
+
+  // Configurações do carrossel
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  
 
 
   return (
     <div className="container mt- mx-auto p-8 bg-white max-w-[1600px] mt-14 rounded-md mb-28">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div className="relative h-[500px] w-full flex justify-center items-center">
-        {/* Imagem principal */}
-        <div className="relative left-0 md:left-24 h-full w-full max-w-[600px]">
-          <Image
-            src={mainImage}
-            alt={title}
-            layout="fill"
-            objectFit="contain"
-            className="rounded-m"
-          />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="relative h-[500px] w-full flex justify-center items-center">
+          {/* Imagem principal */}
+          <div className="relative left-0 md:left-24 h-full w-full max-w-[600px]">
+            <Image
+              src={mainImage}
+              alt={title}
+              layout="fill"
+              objectFit="contain"
+              className="rounded-m"
+            />
+          </div>
+    
+          {/* Imagens adicionais do produto */}
+          {isMobile ? (
+            <div className="w-full mt-4">
+              <Slider {...carouselSettings}>
+                {moreImages.map((imgSrc: string, index: number) => (
+                  <div key={index} className="px-2">
+                    <button
+                      onClick={() => setMainImage(imgSrc)} // Atualiza a imagem principal ao clicar
+                      className="relative w-full overflow-hidden mb-2 transition-transform transform hover:scale-105 hover:opacity-80"
+                    >
+                      <Image
+                        src={imgSrc}
+                        alt={`Imagem adicional ${index + 1}`}
+                        layout="responsive"
+                        width={120}
+                        height={80}
+                        style={{ objectFit: 'contain' }}
+                        className="rounded-md cursor-pointer"
+                      />
+                    </button>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          ) : (
+            <div className="absolute flex flex-row md:flex-col items-center md:items-start md:justify-start left-0 translate-x-0 md:translate-x-0 max-h-[550px] overflow-y-auto md:overflow-hidden space-x-4 md:space-x-0 space-y-4 md:space-y-4 md:mt-0 mt-44  mt-96 ">
+              {moreImages.map((imgSrc: string, index: number) => (
+                <button
+                  onClick={() => setMainImage(imgSrc)} // Atualiza a imagem principal ao clicar
+                  key={index}
+                  className="relative w-[50px] h-[50px] md:w-[120px] md:h-[150px] overflow-hidden mb-2 transition-transform transform hover:scale-105 hover:opacity-80"
+                >
+                  <Image
+                    src={imgSrc}
+                    alt={`Imagem adicional ${index + 1}`}
+                    layout="responsive"
+                    width={120}
+                    height={80}
+                    style={{ objectFit: 'contain' }}
+                    className="rounded-md cursor-pointer"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Informações adicionais do produto */}
+          <div className="absolute flex flex-col left-[250px]  md:items-start md:left-[250px] top-12 ">
+            {processor && (
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10">
+                Processador{' '}
+                <span
+                  className={`font-black text-[18px] ${
+                    processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
+                  }`}
+                >
+                  {processor}
+                </span>
+              </div>
+            )}
+            {memory && (
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
+                Memória <span className='text-pink font-black text-[20px]'>{memory}</span>
+              </div>
+            )}
+            {storage && (
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
+                Armazenamento <span className='text-cian font-black text-[20px]'>{storage}</span>
+              </div>
+            )}
+          </div>
         </div>
-  
-  {/* Imagens adicionais do produto */}
-  <div className="absolute flex flex-row md:flex-col items-center md:items-start md:justify-start left-0 translate-x-0 md:translate-x-0 max-h-[550px] overflow-y-auto md:overflow-hidden space-x-4 md:space-x-0 space-y-4 md:space-y-4 md:mt-0 mt-44  mt-96 ">
-    {moreImages.map((imgSrc: string, index: number) => (
-      <button
-        onClick={() => setMainImage(imgSrc)} // Atualiza a imagem principal ao clicar
-        key={index}
-        className="relative w-[50px] h-[50px] md:w-[120px] md:h-[150px] overflow-hidden mb-2 transition-transform transform hover:scale-105 hover:opacity-80"
-      >
-        <Image
-          src={imgSrc}
-          alt={`Imagem adicional ${index + 1}`}
-          layout="responsive"
-          width={120}
-          height={80}
-          style={{ objectFit: 'contain' }}
-          className="rounded-md cursor-pointer"
-        />
-      </button>
-    ))}
-  </div>
-  
-        {/* Informações adicionais do produto */}
-        <div className="absolute flex flex-col left-[250px]  md:items-start md:left-[250px] top-12 ">
-          {processor && (
-            <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10">
-              Processador{' '}
-              <span
-                className={`font-black text-[18px] ${
-                  processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
-                }`}
-              >
-                {processor}
-              </span>
-            </div>
-          )}
-          {memory && (
-            <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
-              Memória <span className='text-pink font-black text-[20px]'>{memory}</span>
-            </div>
-          )}
-          {storage && (
-            <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
-              Armazenamento <span className='text-cian font-black text-[20px]'>{storage}</span>
-            </div>
-          )}
-        </div>
-      </div>
   
       {/* Parte direita do layout */}
       <div className="flex flex-col space-y-4 text-gray-200 bg-container rounded-md p-4 w-[100%] mx-auto max-w-[600px]">
