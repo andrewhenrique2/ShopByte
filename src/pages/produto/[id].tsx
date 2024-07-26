@@ -190,7 +190,7 @@ const ItemDetail = ({
           )}
 
           {/* Informações adicionais do produto */}
-          <div className="absolute flex flex-col left-[250px]  md:items-start md:left-[250px] top-12 ">
+          <div className="absolute flex flex-col left-[150px]  md:items-start md:left-[250px] top-12 ">
             {processor && (
               <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10">
                 Processador{' '}
