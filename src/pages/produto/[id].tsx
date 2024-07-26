@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus } from 'react-icons/fa';
+import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus, FaHeart } from 'react-icons/fa';
 import bannerContainer from '../../../public/bannerContainer.jpg';
 import Slider from 'react-slick'; // Importa o componente Slider do slick-carousel
 import 'slick-carousel/slick/slick.css'; // Importa o CSS do slick-carousel
@@ -130,7 +130,26 @@ const ItemDetail = ({
 
   return (
     
-    <div className="container mx-auto p-8 bg-white max-w-screen-2xl rounded-md m-24  below-768:bg-container pt-24 below-768:m-0">
+    <div className="container mx-auto px-8 pt-5 pb-4 bg-white max-w-screen-2xl rounded-md m-24  below-768:bg-container pt-24 below-768:m-0">
+
+
+<div className="relative group inline-block ">
+ 
+<FaHeart
+    size={24}
+    className="cursor-pointer text-orange-500 group-hover:text-red-500 transition-colors duration-300 "
+    aria-label="Adicionar ao favoritos"
+  />
+  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
+    Adicionar ao favoritos
+  </span>
+</div>
+
+
+
+
+      <div className="flex mr-7 pb-5 border-b border-gray-300 mb-4 below-768:mr-0"/>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="relative h-full w-full flex justify-center items-center">
           {/* Imagem principal */}
@@ -219,7 +238,7 @@ const ItemDetail = ({
         </div>
   
       {/* Parte direita do layout */}
-      <div className="flex flex-col space-y-4 text-gray-200 bg-container rounded-md p-4 w-[100%] mx-auto max-w-[600px] below-768:bg-container2">
+      <div className="flex flex-col space-y-4 mr-[30px] text-gray-200 bg-container rounded-md p-4 w-[100%] mx-auto max-w-[600px] below-768:bg-container2">
         <Image 
           src={bannerContainer}
           alt="Banner de promoção" 
