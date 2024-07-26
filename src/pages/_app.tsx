@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="relative">
       <Header />
-      <main className="pt-[var(--header-height)]"> {/* Ajuste o padding-top baseado na altura do header */}
+      <main className="pt-[var(--header-height)] below-768:bg-container"> {/* Ajuste o padding-top baseado na altura do header */}
         <Banner />
         <Component {...pageProps} />
       </main>

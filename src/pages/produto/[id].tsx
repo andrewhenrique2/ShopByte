@@ -129,7 +129,8 @@ const ItemDetail = ({
 
 
   return (
-    <div className="container mx-auto p-8 bg-white max-w-screen-2xl rounded-md m-24">
+    
+    <div className="container mx-auto p-8 bg-white max-w-screen-2xl rounded-md m-24  below-768:bg-container pt-24 below-768:m-0">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="relative h-full w-full flex justify-center items-center">
           {/* Imagem principal */}
@@ -191,12 +192,12 @@ const ItemDetail = ({
           )}
 
           {/* Informações adicionais do produto */}
-          <div className="absolute flex flex-col left-[150px]  md:items-start md:left-[250px] top-12 ">
+          <div className="absolute flex flex-col left-[150px]  md:items-start md:left-[250px] top-12 below-768:left-[10px]">
             {processor && (
-              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10">
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col height-10 below-768:text-[12px]">
                 Processador{' '}
                 <span
-                  className={`font-black text-[18px] ${
+                  className={`font-black text-[18px] below-768:text-[13px] ${
                     processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'
                   }`}
                 >
@@ -205,20 +206,20 @@ const ItemDetail = ({
               </div>
             )}
             {memory && (
-              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
-                Memória <span className='text-pink font-black text-[20px]'>{memory}</span>
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col below-768:text-[12px]">
+                Memória <span className='text-pink font-black text-[20px] below-768:text-[12px]'>{memory}</span>
               </div>
             )}
             {storage && (
-              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col">
-                Armazenamento <span className='text-cian font-black text-[20px]'>{storage}</span>
+              <div className="text-white px-2 font-black bg-black rounded-md text-[16px] mb-1 border-solid flex flex-col below-768:text-[12px]">
+                Armazenamento <span className='text-cian font-black text-[20px] below-768:text-[12px]'>{storage}</span>
               </div>
             )}
           </div>
         </div>
   
       {/* Parte direita do layout */}
-      <div className="flex flex-col space-y-4 text-gray-200 bg-container rounded-md p-4 w-[100%] mx-auto max-w-[600px]">
+      <div className="flex flex-col space-y-4 text-gray-200 bg-container rounded-md p-4 w-[100%] mx-auto max-w-[600px] below-768:bg-container2">
         <Image 
           src={bannerContainer}
           alt="Banner de promoção" 
@@ -351,6 +352,7 @@ const ItemDetail = ({
       </div>
   );
 };
+
  {/*  PROPS PEGANDO DE CARD E ITENS */}
 
 import { GetServerSideProps } from 'next';

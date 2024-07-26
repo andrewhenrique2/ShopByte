@@ -1,8 +1,10 @@
 import Card from '../../components/Card';
+import fone from '../../../public/fone.jpg';
+import fone2 from '../../../public/fone2.jpg';
+import fone3 from '../../../public/fone3.jpg';
 import AMD from '../../../public/AMD.png';
 import umquatro from '../../../public/144.png';
 import aorus from '../../../public/aorus.png';
-import gabinete2 from '../../../public/gabinete2.jpg';
 import geforce from '../../../public/Gforce.webp';
 import ryzen from '../../../public/ryzen7.jpg';
 import intel from '../../../public/intel.jpg';
@@ -54,6 +56,7 @@ import fonte4 from '../../../public/fonte3.webp';
 
 
 const products = [
+
   {
     id: "Monitor-Gamer-SuperFrame-Vision",
     imageSrc: monitor,
@@ -66,6 +69,7 @@ const products = [
 
     moreImages: [monitor, monitor2, monitor3, monitor4, monitor5, monitor6],
   },
+
   {
     id: "Gamer-T-Gamer",
     imageSrc: gabinete3,
@@ -79,20 +83,7 @@ const products = [
     additionalImages: [rtxbanner],
     moreImages: [gabinete3, gamimax1, gamimax2, gamimax3, gamimax4],
   },
-  
 
-  {
-    id: "PC-Gamer-T-GAMER-Hawk",
-    imageSrc: gabinete2,
-    imageAlt: "PC Gamer T-GAMER Hawk",
-    title: "PC Gamer T-GAMER Hawk Intel i5 10400F / AMD Radeon RX 550 / 8GB DDR4 / SSD 240GB",
-    oldPrice: "R$ 4.500,00",
-    newPrice: "R$ 3.499,90",
-    processor: "i5 10400F",
-    memory: "8GB",
-    storage: "SSD 240GB",
-    additionalImages: [AMD],
-  },
 
   {
     id: "RTX-3080-10GB",
@@ -161,6 +152,20 @@ const products = [
 
 
   {
+    id: "Mousepad Gamer Force One",
+    imageSrc: pad,
+    imageAlt: "Mousepad Gamer Force One Skyhawk Fluxo Edition, 3XL (1200x550x3mm), FR.MP.SH.09",
+    title: "Mousepad Gamer Force One Skyhawk Fluxo Edition, 3XL (1200x550x3mm), FR.MP.SH.09",
+    oldPrice: "R$ 189,90   ",
+    newPrice: "R$ 119,90",
+    isOnPromotion: true,
+    promotionEndTime: "2024-09-01T23:59:59Z",
+    moreImages: [ pad,  pad2, pad3],
+
+  },
+
+
+  {
     id: "Mouse Gamer SuperFrame Magnus",
     imageSrc: mouse,
     imageAlt: "Mouse Gamer SuperFrame Magnus, RGB, Sensor PAW 3333, 19000 DPI, 7 Botões, Pink",
@@ -170,6 +175,19 @@ const products = [
     isOnPromotion: true,
     promotionEndTime: "2024-09-01T23:59:59Z",
     moreImages: [ mouse,  mouse2, mouse3,],
+
+  },
+
+  {
+    id: "Headset Gamer Fifine",
+    imageSrc: fone,
+    imageAlt: "Headset Gamer Fifine SuperFrame Edition SFH6, 7.1 Surround, Drivers de 50mm, RGB, USB, White",
+    title: "Headset Gamer Fifine SuperFrame Edition SFH6, 7.1 Surround, Drivers de 50mm, RGB, USB, White",
+    oldPrice: "R$ 569,00   ",
+    newPrice: "R$ 179,90",
+    isOnPromotion: true,
+    promotionEndTime: "2024-09-01T23:59:59Z",
+    moreImages: [ fone,  fone2, fone3,],
 
   },
 
@@ -227,8 +245,8 @@ const products = [
 
 const Itens = () => {
   return (
-    <section className="mt-24 mx-auto p-8 bg-bgitens" style={{ maxWidth: 'calc(100% - 50px)' }}>
-    <div className="grid gap-4 p-4    lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 6xl:grid-cols-8 ">
+    <section className="mt-24 mx-auto p-8 bg-bgitens rounded-md below-768:bg-container2" style={{ maxWidth: 'calc(100% - 50px)' }}>
+    <div className="grid gap-4 p-4    lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 6xl:grid-cols-8  ">
     {products.map((product) => (
           <Card 
             key={product.id}
