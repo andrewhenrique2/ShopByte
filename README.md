@@ -15,7 +15,7 @@
 
 <br/>
   
-![shop-byte vercel app_](https://github.com/user-attachments/assets/85fb1426-b590-4fc0-b2bb-9108773d300d)
+![shopbyte](https://github.com/user-attachments/assets/088112dc-e29b-43d5-974a-289e2d389970)
 
 </div>
 
