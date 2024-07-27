@@ -76,7 +76,7 @@ const Header: React.FC = () => {
             </div>
             <Link href="/cadastro" className="hover:text-link text-[16px] font-black">Cadastre-se</Link>
           </div>
-          <Link href="/favorites" className="hover:text-link relative">
+          <Link href="/favoritos" className="hover:text-link relative">
             <FaHeart size={24}/>
             <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-orange-500 rounded-full"></span>
           </Link>
@@ -104,7 +104,7 @@ const Header: React.FC = () => {
             />
             <Link href="/login" className="hover:text-link text-[16px] font-black">Entre</Link>
             <Link href="/cadastro" className="hover:text-link text-[16px] font-black">Cadastre-se</Link>
-            <Link href="/favorites" className="hover:text-link flex items-center space-x-2">
+            <Link href="/favoritos" className="hover:text-link flex items-center space-x-2">
               <FaHeart size={24}/>
               <span>Favoritos</span>
             </Link>

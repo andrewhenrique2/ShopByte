@@ -1,12 +1,27 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus, FaHeart, FaWhatsapp, FaShareAlt  } from 'react-icons/fa';
+import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus, FaHeart, FaWhatsapp, FaShareAlt } from 'react-icons/fa';
 import bannerContainer from '../../../public/bannerContainer.jpg';
 import Slider from 'react-slick'; // Importa o componente Slider do slick-carousel
 import 'slick-carousel/slick/slick.css'; // Importa o CSS do slick-carousel
 import 'slick-carousel/slick/slick-theme.css';
 
-// Define o tipo para os dados de parcelamento
+// Define o tipo para os dados do item
+interface ItemDetailProps {
+  imageSrc: string;
+  moreImages: string[];
+  title: string;
+  oldPrice: string;
+  newPrice: string;
+  promotionEndTime?: string;
+  releaseDate?: string;
+  isNew?: boolean;
+  isOnPromotion?: boolean;
+  processor?: string;
+  memory?: string;
+  storage?: string;
+  id: string;
+}
 
 const ItemDetail = ({
   imageSrc,
@@ -21,12 +36,16 @@ const ItemDetail = ({
   processor,
   memory,
   storage,
-}: any) => {
+  id
+}: ItemDetailProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [showInstallments, setShowInstallments] = useState<boolean>(false);
   const [mainImage, setMainImage] = useState<string>(imageSrc); // Estado para a imagem principal
   const [isMobile, setIsMobile] = useState<boolean>(false); // Estado para verificar se é mobile
-
+  const [favorited, setFavorited] = useState<{ id: string }[]>(() => {
+    const storedFavorites = localStorage.getItem('favorites');
+    return storedFavorites ? JSON.parse(storedFavorites) : [];
+  });
 
   // Função para formatar moeda
   const formatCurrency = (value: number) => {
@@ -35,10 +54,6 @@ const ItemDetail = ({
       currency: 'BRL',
     });
   };
-
-  useEffect(() => {
-    console.log({ processor, memory, storage });
-  }, [processor, memory, storage]);
 
   // Atualiza a conversão do preço
   const convertPrice = (price: string | undefined) => {
@@ -66,23 +81,25 @@ const ItemDetail = ({
   // Obter o valor da última parcela
   const lastInstallmentValue = installments[maxInstallments - 1]?.value || '0.00';
 
-  useEffect(() => {
+  // Função para calcular o tempo restante da promoção
+  const updateTimeLeft = () => {
     if (promotionEndTime) {
       const endTime = new Date(promotionEndTime).getTime();
-      const interval = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = endTime - now;
+      const now = new Date().getTime();
+      const distance = endTime - now;
 
-        if (distance < 0) {
-          clearInterval(interval);
-          setTimeLeft(0);
-        } else {
-          setTimeLeft(distance);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
+      if (distance < 0) {
+        setTimeLeft(0);
+      } else {
+        setTimeLeft(distance);
+      }
     }
+  };
+
+  useEffect(() => {
+    updateTimeLeft();
+    const interval = setInterval(updateTimeLeft, 1000);
+    return () => clearInterval(interval);
   }, [promotionEndTime]);
 
   const formatTime = (ms: number) => {
@@ -93,14 +110,26 @@ const ItemDetail = ({
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   };
 
-    // Hook para verificar o tamanho da tela
-    useEffect(() => {
-      const handleResize = () => setIsMobile(window.innerWidth < 768);
-      handleResize(); // Verifica o tamanho inicial da tela
-      window.addEventListener('resize', handleResize); // Adiciona um listener para redimensionamento
-      return () => window.removeEventListener('resize', handleResize); // Limpa o listener
-    }, []);
+  // Hook para verificar o tamanho da tela
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Verifica o tamanho inicial da tela
+    window.addEventListener('resize', handleResize); // Adiciona um listener para redimensionamento
+    return () => window.removeEventListener('resize', handleResize); // Limpa o listener
+  }, []);
 
+  // Função para lidar com o clique no botão de favorito
+  const handleFavoriteClick = () => {
+    const existingFavorite = favorited.find(item => item.id === id);
+
+    if (existingFavorite) {
+      setFavorited(favorited.filter(item => item.id !== id));
+      alert('Item removido dos favoritos');
+    } else {
+      setFavorited([...favorited, { id }]);
+      alert('Item adicionado aos favoritos!');
+    }
+  };
 
   // Configurações do carrossel
   const carouselSettings = {
@@ -124,7 +153,6 @@ const ItemDetail = ({
       },
     ],
   };
-
   
 
 
@@ -164,6 +192,7 @@ const ItemDetail = ({
       size={24}
       className="cursor-pointer text-orange-500 group-hover:text-red-500 transition-colors duration-300"
       aria-label="Adicionar ao favoritos"
+      onClick={handleFavoriteClick}
     />
     <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
       Adicionar ao favoritos
@@ -365,7 +394,8 @@ const ItemDetail = ({
                   <FaPlus />
                   VER PARCELAMENTO
                 </button>
-                <button className="flex items-center justify-center bg-green-500 text-white py-2 px-4 rounded-md w-full mt-4">
+                <button 
+                className="flex items-center justify-center bg-green-500 text-white py-2 px-4 rounded-md w-full mt-4">
                   Comprar com Desconto
                   <FaCartPlus className='ml-2' />
                   </button>
