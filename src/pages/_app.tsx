@@ -32,9 +32,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           pauseOnHover
           className="custom-toast-container"
         />
-        <Login/>
-        <Caadastro/>
-        <Cart/>
       </div>
     </FavoritosProvider>
   );
