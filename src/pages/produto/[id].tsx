@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus, FaHeart, FaWhatsapp, FaShareAlt } from 'react-icons/fa';
+import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus, FaHeart, FaWhatsapp, FaShareAlt  } from 'react-icons/fa';
 import bannerContainer from '../../../public/bannerContainer.jpg';
-import Slider from 'react-slick'; // Importa o componente Slider do slick-carousel
-import 'slick-carousel/slick/slick.css'; // Importa o CSS do slick-carousel
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useFavoritos } from '../favoritos/FavoritosContext';
+import { toast } from 'react-toastify';
 
-// Define o tipo para os dados do item
+
 interface ItemDetailProps {
   imageSrc: string;
   moreImages: string[];
@@ -40,14 +42,10 @@ const ItemDetail = ({
 }: ItemDetailProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [showInstallments, setShowInstallments] = useState<boolean>(false);
-  const [mainImage, setMainImage] = useState<string>(imageSrc); // Estado para a imagem principal
-  const [isMobile, setIsMobile] = useState<boolean>(false); // Estado para verificar se é mobile
-  const [favorited, setFavorited] = useState<{ id: string }[]>(() => {
-    const storedFavorites = localStorage.getItem('favorites');
-    return storedFavorites ? JSON.parse(storedFavorites) : [];
-  });
+  const [mainImage, setMainImage] = useState<string>(imageSrc);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const { favoritos, adicionarAFavorito, excluirAFavorito } = useFavoritos();
 
-  // Função para formatar moeda
   const formatCurrency = (value: number) => {
     return value.toLocaleString('pt-BR', {
       style: 'currency',
@@ -55,17 +53,14 @@ const ItemDetail = ({
     });
   };
 
-  // Atualiza a conversão do preço
   const convertPrice = (price: string | undefined) => {
     if (!price) return 0;
-    // Remove caracteres não numéricos e substitui vírgula por ponto
     const cleanedPrice = price.replace(/[^\d,]/g, '').replace(',', '.');
     return parseFloat(cleanedPrice);
   };
 
   const productPrice = convertPrice(newPrice);
 
-  // Função para calcular parcelas
   const calculateInstallments = (price: number, maxInstallments: number) => {
     const installments = [];
     for (let i = 1; i <= maxInstallments; i++) {
@@ -78,10 +73,8 @@ const ItemDetail = ({
   const maxInstallments = 12;
   const installments = calculateInstallments(productPrice, maxInstallments);
 
-  // Obter o valor da última parcela
   const lastInstallmentValue = installments[maxInstallments - 1]?.value || '0.00';
 
-  // Função para calcular o tempo restante da promoção
   const updateTimeLeft = () => {
     if (promotionEndTime) {
       const endTime = new Date(promotionEndTime).getTime();
@@ -110,28 +103,64 @@ const ItemDetail = ({
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   };
 
-  // Hook para verificar o tamanho da tela
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize(); // Verifica o tamanho inicial da tela
-    window.addEventListener('resize', handleResize); // Adiciona um listener para redimensionamento
-    return () => window.removeEventListener('resize', handleResize); // Limpa o listener
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Função para lidar com o clique no botão de favorito
   const handleFavoriteClick = () => {
-    const existingFavorite = favorited.find(item => item.id === id);
+    const item = { id, title, imageSrc, newPrice, oldPrice };
+    const existingFavorite = favoritos.find(fav => fav.id === id);
 
     if (existingFavorite) {
-      setFavorited(favorited.filter(item => item.id !== id));
+      excluirAFavorito(id);
       alert('Item removido dos favoritos');
     } else {
-      setFavorited([...favorited, { id }]);
+      adicionarAFavorito(item);
       alert('Item adicionado aos favoritos!');
     }
   };
 
-  // Configurações do carrossel
+
+  const handleFavoriteToggle = () => {
+    console.log('Ícone de favorito clicado'); // Adicione isso para verificar o clique
+    const item = { id, title, imageSrc, newPrice, oldPrice };
+    const existingFavorite = favoritos.find(fav => fav.id === id);
+  
+    if (existingFavorite) {
+      excluirAFavorito(id);
+      toast.error(
+        <div className="flex flex-col items-center justify-center h-full">
+          <p className="text-lg font-semibold">Removido</p>
+          <p>Item removido da Lista de Desejos</p>
+          <button className="Toastify__toast-button" onClick={() => toast.dismiss()}>
+            OK
+          </button>
+        </div>,
+        {
+          className: 'custom-toast-error',
+        }
+      );
+    } else {
+      adicionarAFavorito(item);
+      toast.success(
+        <div className="flex flex-col items-center justify-center h-full">
+          <p className="text-lg font-semibold">Sucesso!</p>
+          <p>Adicionado à Lista de Desejos</p>
+          <button className="Toastify__toast-button" onClick={() => toast.dismiss()}>
+            OK
+          </button>
+        </div>,
+        {
+          className: 'custom-toast-success',
+        }
+      );
+    }
+  };
+  
+  
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -153,7 +182,7 @@ const ItemDetail = ({
       },
     ],
   };
-  
+
 
 
   return (
@@ -186,13 +215,15 @@ const ItemDetail = ({
       Compartilhar
     </span>
   </div>
+
+
   {/* Ícone de favorito */}
-  <div className="relative group">
+  <div  className="relative group">
     <FaHeart
       size={24}
       className="cursor-pointer text-orange-500 group-hover:text-red-500 transition-colors duration-300"
       aria-label="Adicionar ao favoritos"
-      onClick={handleFavoriteClick}
+      onClick={handleFavoriteToggle}
     />
     <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
       Adicionar ao favoritos
@@ -203,9 +234,11 @@ const ItemDetail = ({
 
 
       <div className="flex mr-7 pb-5 border-b border-gray-300 mb-4 below-768:mr-0"/>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="relative h-full w-full flex justify-center items-center">
+
+
+
           {/* Imagem principal */}
           <div className="relative  left-0 
           md:left-24 h-full w-full max-w-[500px] below-1500:max-w-[300px] below-1000:max-w-[200px]">
@@ -219,6 +252,7 @@ const ItemDetail = ({
           </div>
     
           {/* Imagens adicionais do produto */}
+
           {isMobile ? (
             <div className="w-full mt-[-200px]">
               <Slider {...carouselSettings}>
@@ -290,6 +324,7 @@ const ItemDetail = ({
             )}
           </div>
         </div>
+
   
       {/* Parte direita do layout */}
       <div className="flex flex-col space-y-4 mr-[30px] text-gray-200 bg-container rounded-md p-4 w-[100%] mx-auto max-w-[600px] below-768:bg-container2">

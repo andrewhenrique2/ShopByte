@@ -3,12 +3,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaHeart, FaShoppingCart, FaSearch, FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../../public/shopbyte.jpg';
+import { useFavoritos } from '../../pages/favoritos/FavoritosContext'; // Ajuste o caminho conforme necessário
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const buttonRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const headerRef = useRef<HTMLHeadingElement | null>(null);
+  
+  const { contagemFavoritos } = useFavoritos(); // Obtenha a contagem de favoritos
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -78,7 +81,11 @@ const Header: React.FC = () => {
           </div>
           <Link href="/favoritos" className="hover:text-link relative">
             <FaHeart size={24}/>
-            <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-orange-500 rounded-full"></span>
+            {contagemFavoritos > 0 && (
+              <span className="absolute top-[-4px] left-4 inline-block w-4 h-4 bg-orange-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                {contagemFavoritos}
+              </span>
+            )}
           </Link>
           <Link href="/cart" className="hover:text-link relative">
             <FaShoppingCart size={24}/>
@@ -87,7 +94,11 @@ const Header: React.FC = () => {
         </div>
 
         <div className="md:hidden flex items-center">
-          <button onClick={toggleMenu} className="focus:outline-none">
+          <button 
+            onClick={toggleMenu} 
+            className="focus:outline-none"
+            ref={buttonRef}
+          >
             {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
         </div>
@@ -107,6 +118,11 @@ const Header: React.FC = () => {
             <Link href="/favoritos" className="hover:text-link flex items-center space-x-2">
               <FaHeart size={24}/>
               <span>Favoritos</span>
+              {contagemFavoritos > 0 && (
+                <span className="inline-block w-4 h-4 bg-orange-500 text-white text-xs font-bold rounded-full flex items-center justify-center ml-2">
+                  {contagemFavoritos}
+                </span>
+              )}
             </Link>
             <Link href="/cart" className="hover:text-link flex items-center space-x-2">
               <FaShoppingCart size={24}/>
