@@ -35,6 +35,10 @@ Galeria de Imagens: Exibe imagens do produto e permite visualização adicional.
 
 Detalhes do Produto: Fornece informações como processador, memória e armazenamento. <br/>
 
+Favoritos: Adicione e remova itens dos favoritos, com contagem de favoritos e armazenamento persistente no localStorage.  <br/>
+
+Ordenação: Ordene itens por preço (menor ou maior) diretamente na página de favoritos.  <br/>
+
 Promoções: Inclui uma contagem regressiva para promoções e exibe uma mensagem quando a promoção termina. <br/>
 
 Parcelamento: Oferece opções de parcelamento para facilitar a compra. <br/>
