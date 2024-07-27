@@ -1,7 +1,7 @@
 // pages/_app.tsx
 import { AppProps } from 'next/app';
 import '../styles/globals.css';
-import Header from '../components/Header';
+import Header from '@/components/Header';
 import Banner from '@/components/Banner';
 import Footer from '@/components/footer';
 import { FavoritosProvider } from '../pages/favoritos/FavoritosContext';
@@ -12,10 +12,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <FavoritosProvider>
       <div className="relative">
-        <Header />
         <main className="pt-[var(--header-height)] below-768:bg-container">
-          <Banner />
-          <Component {...pageProps} />
+        <Header/>
+        <Banner />
+        <Component {...pageProps} />
         </main>
         <Footer />
         <ToastContainer

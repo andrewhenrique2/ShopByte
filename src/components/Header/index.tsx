@@ -36,7 +36,7 @@ const Header: React.FC = () => {
   return (
     <header
       ref={headerRef}
-      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px]"
+      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px] overflow-hidden "
     >
       <div className="container mx-auto flex items-center justify-between px-4 md:px-8 lg:px-32">
         <Link href='/' className='flex items-center gap-2'>

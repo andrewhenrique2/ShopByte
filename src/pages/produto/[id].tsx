@@ -110,19 +110,6 @@ const ItemDetail = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleFavoriteClick = () => {
-    const item = { id, title, imageSrc, newPrice, oldPrice };
-    const existingFavorite = favoritos.find(fav => fav.id === id);
-
-    if (existingFavorite) {
-      excluirAFavorito(id);
-      alert('Item removido dos favoritos');
-    } else {
-      adicionarAFavorito(item);
-      alert('Item adicionado aos favoritos!');
-    }
-  };
-
 
   const handleFavoriteToggle = () => {
     console.log('Ícone de favorito clicado'); // Adicione isso para verificar o clique
@@ -218,17 +205,18 @@ const ItemDetail = ({
 
 
   {/* Ícone de favorito */}
-  <div  className="relative group">
+  <button  
+  onClick={handleFavoriteToggle}
+  className="relative group z-202222">
     <FaHeart
       size={24}
       className="cursor-pointer text-orange-500 group-hover:text-red-500 transition-colors duration-300"
       aria-label="Adicionar ao favoritos"
-      onClick={handleFavoriteToggle}
     />
     <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
       Adicionar ao favoritos
     </span>
-  </div>
+  </button>
 </div>
 
 
@@ -254,10 +242,10 @@ const ItemDetail = ({
           {/* Imagens adicionais do produto */}
 
           {isMobile ? (
-            <div className="w-full mt-[-200px]">
+            <div className="w-full h-auto">
               <Slider {...carouselSettings}>
                 {moreImages.map((imgSrc: string, index: number) => (
-                  <div key={index} className="px-2 mt-44">
+                  <div key={index} className="relative ">
                     <button
                       onClick={() => setMainImage(imgSrc)} // Atualiza a imagem principal ao clicar
                       className="relative w-full overflow-hidden mb-2 transition-transform transform hover:scale-105 hover:opacity-80"

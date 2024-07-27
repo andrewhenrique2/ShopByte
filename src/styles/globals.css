@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 
+.container {
+  max-width: 100%;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+header, main, footer {
+  box-sizing: border-box;
+}
 
 
 /* Reset CSS */
@@ -11,6 +24,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -25,6 +39,7 @@ body, input, textarea, button {
 
 :root {
   --header-height: 100px; /* Ajuste conforme necessário */
+
 }
 
 header {
