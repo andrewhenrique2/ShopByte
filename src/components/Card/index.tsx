@@ -112,7 +112,7 @@ const Card = ({
   return (
     <div
       onClick={handleCardClick}
-      className="relative bg-card rounded-md p-4 flex flex-col items-center text-center mb-12 group shadow-sm cursor-pointer"
+      className="relative bg-card rounded-md p-4 flex flex-col items-center text-center mb-12 group shadow-sm cursor-pointer below-768:w-full"
     >
       <div className="relative w-full h-[250px] mb-6">
         <Image

@@ -245,7 +245,7 @@ const products = [
 
 const Itens = () => {
   return (
-    <section className="mt-24 mx-auto p-8 bg-bgitens rounded-md below-768:bg-container2" style={{ maxWidth: 'calc(100% - 50px)' }}>
+    <section className="mt-24 mx-auto p-8 bg-bgitens rounded-md below-768:bg-container2 below-768:p-0" style={{ maxWidth: 'calc(100% - 50px)' }}>
     <div className="grid gap-4 p-4    lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 6xl:grid-cols-8  ">
     {products.map((product) => (
           <Card 
