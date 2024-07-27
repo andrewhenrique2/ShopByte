@@ -63,3 +63,10 @@ export const useFavoritos = () => {
   }
   return context;
 };
+
+// Certifique-se de que há um componente React sendo exportado por padrão
+const FavoritosPage: React.FC = () => {
+  return <div>Favoritos Page</div>;
+};
+
+export default FavoritosPage;

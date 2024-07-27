@@ -500,9 +500,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       releaseDate: releaseDate as string,
       isNew: isNew === 'true',
       isOnPromotion: isOnPromotion === 'true',
-      processor: processor as string, 
-      memory: memory as string,       
-      storage: storage as string,    
+      processor: processor as string,
+      memory: memory as string,
+      storage: storage as string,
     },
   };
 };
