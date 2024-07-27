@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus, FaHeart } from 'react-icons/fa';
+import { FaStar, FaCalendar, FaBolt, FaCreditCard, FaBarcode, FaPlus, FaInfoCircle, FaCartPlus, FaHeart, FaWhatsapp, FaShareAlt  } from 'react-icons/fa';
 import bannerContainer from '../../../public/bannerContainer.jpg';
 import Slider from 'react-slick'; // Importa o componente Slider do slick-carousel
 import 'slick-carousel/slick/slick.css'; // Importa o CSS do slick-carousel
@@ -133,18 +133,43 @@ const ItemDetail = ({
     <div className="container mx-auto px-8 pt-5 pb-4 bg-white max-w-screen-2xl rounded-md m-24  below-768:bg-container pt-24 below-768:m-0">
 
 
-<div className="relative group inline-block ">
- 
-<FaHeart
-    size={24}
-    className="cursor-pointer text-orange-500 group-hover:text-red-500 transition-colors duration-300 "
-    aria-label="Adicionar ao favoritos"
-  />
-  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
-    Adicionar ao favoritos
-  </span>
-</div>
+<div className="flex justify-end space-x-4 pr-8 below-768:pr-0">
 
+  {/* Ícone do WhatsApp */}
+  <div className="relative group">
+    <FaWhatsapp
+      size={24}
+      className="cursor-pointer text-green-500 group-hover:text-green-400 transition-colors duration-300"
+      aria-label="Compartilhar no WhatsApp"
+    />
+    <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
+      Compartilhar no WhatsApp
+    </span>
+  </div>
+
+  {/* Ícone de compartilhar */}
+  <div className="relative group">
+    <FaShareAlt
+      size={24}
+      className="cursor-pointer text-gray-600 group-hover:text-gray-500 transition-colors duration-300"
+      aria-label="Compartilhar"
+    />
+    <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
+      Compartilhar
+    </span>
+  </div>
+  {/* Ícone de favorito */}
+  <div className="relative group">
+    <FaHeart
+      size={24}
+      className="cursor-pointer text-orange-500 group-hover:text-red-500 transition-colors duration-300"
+      aria-label="Adicionar ao favoritos"
+    />
+    <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 invisible group-hover:visible text-sm bg-gray-700 text-white rounded-lg px-2 py-1 whitespace-nowrap">
+      Adicionar ao favoritos
+    </span>
+  </div>
+</div>
 
 
 
