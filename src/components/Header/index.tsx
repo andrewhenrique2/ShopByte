@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const headerRef = useRef<HTMLHeadingElement | null>(null);
-  
+
   const { contagemFavoritos } = useFavoritos(); // Obtenha a contagem de favoritos
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -33,10 +33,15 @@ const Header: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Função para fechar o menu ao clicar em um item
+  const handleMenuItemClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <header
       ref={headerRef}
-      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px] overflow-hidden "
+      className="bg-bg text-white py-4 fixed w-full top-0 left-0 z-50 shadow-md min-h-[80px]"
     >
       <div className="container mx-auto flex items-center justify-between px-4 md:px-8 lg:px-32">
         <Link href='/' className='flex items-center gap-2'>
@@ -113,9 +118,9 @@ const Header: React.FC = () => {
               type="text"
               id="search"
             />
-            <Link href="/login" className="hover:text-link text-[16px] font-black">Entre</Link>
-            <Link href="/cadastro" className="hover:text-link text-[16px] font-black">Cadastre-se</Link>
-            <Link href="/favoritos" className="hover:text-link flex items-center space-x-2">
+            <Link href="/login" className="hover:text-link text-[16px] font-black" onClick={handleMenuItemClick}>Entre</Link>
+            <Link href="/cadastro" className="hover:text-link text-[16px] font-black" onClick={handleMenuItemClick}>Cadastre-se</Link>
+            <Link href="/favoritos" className="hover:text-link flex items-center space-x-2" onClick={handleMenuItemClick}>
               <FaHeart size={24}/>
               <span>Favoritos</span>
               {contagemFavoritos > 0 && (
@@ -124,7 +129,7 @@ const Header: React.FC = () => {
                 </span>
               )}
             </Link>
-            <Link href="/cart" className="hover:text-link flex items-center space-x-2">
+            <Link href="/cart" className="hover:text-link flex items-center space-x-2" onClick={handleMenuItemClick}>
               <FaShoppingCart size={24}/>
               <span>Carrinho</span>
             </Link>

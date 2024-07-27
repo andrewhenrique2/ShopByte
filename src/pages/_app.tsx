@@ -7,13 +7,15 @@ import Footer from '@/components/footer';
 import { FavoritosProvider } from '../pages/favoritos/FavoritosContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Login from '@/pages/login';
+import Caadastro from '@/pages/cadastro';
+import Cart from '@/pages/cart'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <FavoritosProvider>
       <div className="relative">
-        <main className="pt-[var(--header-height)] below-768:bg-container">
         <Header/>
+        <main className="pt-[var(--header-height)] below-768:bg-container">
         <Banner />
         <Component {...pageProps} />
         </main>
@@ -30,6 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           pauseOnHover
           className="custom-toast-container"
         />
+        <Login/>
+        <Caadastro/>
+        <Cart/>
       </div>
     </FavoritosProvider>
   );
