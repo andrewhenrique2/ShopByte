@@ -127,12 +127,17 @@ const Favoritos: React.FC = () => {
                       <span className="ml-1 text-verdao text-lg font-bold">{item.newPrice || 'Preço não disponível'}</span>
                     </span>
                   </div>
+                  <div className="flex gap-4 pt-4">
                   <button
                     className="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
                     onClick={(e) => handleRemoveClick(e, item)}
                   >
                     Remover
                   </button>
+                  <button className="mt-2 bg-verdao text-white px-4 py-2 rounded-md hover:bg-green-700">
+                    Comprar
+                  </button>
+                </div>
                 </div>
               ))}
             </div>
