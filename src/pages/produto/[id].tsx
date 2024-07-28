@@ -112,7 +112,6 @@ const ItemDetail = ({
 
 
   const handleFavoriteToggle = () => {
-    console.log('Ícone de favorito clicado'); // Adicione isso para verificar o clique
     const item = { id, title, imageSrc, newPrice, oldPrice };
     const existingFavorite = favoritos.find(fav => fav.id === id);
   
