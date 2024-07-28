@@ -4,7 +4,7 @@ import '../styles/globals.css';
 import Header from '@/components/Header';
 import Banner from '@/components/Banner';
 import Footer from '@/components/footer';
-import { FavoritosProvider } from '../pages/favoritos/FavoritosContext';
+import { FavoritosProvider } from '../utils/FavoritosContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from '@/pages/login';

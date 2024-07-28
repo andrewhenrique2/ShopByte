@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaHeart, FaShoppingCart, FaSearch, FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../../public/shopbyte.jpg';
-import { useFavoritos } from '../../pages/favoritos/FavoritosContext'; // Ajuste o caminho conforme necessário
+import { useFavoritos } from '../../utils/FavoritosContext'; // Ajuste o caminho conforme necessário
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
