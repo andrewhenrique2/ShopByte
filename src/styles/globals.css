@@ -55,6 +55,52 @@ header {
   }
 }
 
+/* Botão de Toast */
+.toast-button {
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toast-button-error {
+  background-color: red;
+}
+
+.toast-button-error:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+.toast-button-success {
+  background-color: green;
+}
+
+.toast-button-success:hover {
+  background-color: darkgreen;
+  transform: scale(1.05);
+}
+
+/* Toast Customizado */
+.custom-toast-error {
+  background-color: #f8d7da;
+  color: black;
+}
+
+.custom-toast-success {
+  background-color: #d4edda;
+  color: black;
+}
+
+/* Remover o ícone "x" do canto inferior esquerdo */
+.Toastify__close-button {
+  display: none;
+}
+
+
 .fire-background {
   background: linear-gradient(45deg, #ff4500, #ff8c00, #ffd700, #ff4500, #ff8c00);
   background-size: 400% 400%;

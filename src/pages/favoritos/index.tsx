@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FaCaretDown, FaSadTear } from 'react-icons/fa';
+import { useHandleFavoriteToggle } from '../../utils/handleFavoriteToggle'; // Importa o hook
 
 interface Favorito {
   id: string;
@@ -26,6 +27,7 @@ const Favoritos: React.FC = () => {
   const [ordenacao, setOrdenacao] = useState<'maior' | 'menor' | 'original'>('original');
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
+
 
   useEffect(() => {
     const extrairPreco = (preco: string) => {
@@ -124,24 +126,6 @@ const Favoritos: React.FC = () => {
     const novosFavoritos = favoritos.filter(fav => fav.id !== item.id);
     localStorage.setItem('favoritos', JSON.stringify(novosFavoritos));
     setFavoritos(novosFavoritos);
-
-    console.log('Item Removido:', {
-      id: item.id,
-      title: item.title,
-      newPrice: item.newPrice,
-      oldPrice: item.oldPrice,
-      imageSrc: item.imageSrc,
-      isOnPromotion: item.isOnPromotion,
-      promotionEndTime: item.promotionEndTime,
-      additionalImages: item.additionalImages,
-      moreImages: item.moreImages,
-      installment: item.installment,
-      releaseDate: item.releaseDate,
-      isNew: item.isNew,
-      processor: item.processor,
-      memory: item.memory,
-      storage: item.storage,
-    });
   };
 
   return (
@@ -202,7 +186,7 @@ const Favoritos: React.FC = () => {
                     />
                   </div>
                   <h2 className="text-bg text-[16px] font-sans font-semibold mb-2">{item.title}</h2>
-                  <div className="items-center gap-2 text-card flex flex-col justify-center">
+                  <div className="items-center gap-2 text-card flex flex-col justify-center mb-12">
                     {item.oldPrice && (
                       <span className="text-gray-600 text-[15px] line-through">
                         <span className="text-gray-600">De:</span>
@@ -216,12 +200,21 @@ const Favoritos: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <button
-                    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                    onClick={(e) => handleRemoveClick(e, item)}
-                  >
-                    Remover
-                  </button>
+  
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
+                    <button
+                      className="bg-red-500 text-white border border-red-500 rounded-md w-32 h-10 flex items-center justify-center text-xs hover:bg-red-600 transition-colors duration-150"
+                      onClick={(e) => handleRemoveClick(e, item)}
+                    >
+                      Remover
+                    </button>
+                    <button
+                      className="bg-green-500 text-white border border-green-500 rounded-md w-32 h-10 flex items-center justify-center text-xs hover:bg-green-600 transition-colors duration-150"
+                      onClick={() => {/* Adicione a lógica para o botão Comprar */}}
+                    >
+                      Comprar
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -230,6 +223,9 @@ const Favoritos: React.FC = () => {
       </div>
     </div>
   );
+  
+  
+  
 };
 
 export default Favoritos;

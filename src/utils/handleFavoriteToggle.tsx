@@ -59,9 +59,9 @@ export const useHandleFavoriteToggle = () => {
       excluirAFavorito(id);
       toast.error(
         <div className="flex flex-col items-center justify-center h-full">
-          <p className="text-lg font-semibold">Removido</p>
-          <p>Item &quot;{title}&quot; removido da Lista de Desejos</p>
-          <button className="Toastify__toast-button" onClick={() => toast.dismiss()}>
+          <p className="text-lg font-semibold text-black">Removido</p>
+          <p className="text-black"> Removido da Lista de Desejos</p>
+          <button className="toast-button toast-button-error mt-8 pt-8" onClick={() => toast.dismiss()}>
             OK
           </button>
         </div>,
@@ -73,9 +73,9 @@ export const useHandleFavoriteToggle = () => {
       adicionarAFavorito(item);
       toast.success(
         <div className="flex flex-col items-center justify-center h-full">
-          <p className="text-lg font-semibold">Sucesso!</p>
-          <p>Adicionado à Lista de Desejos</p>
-          <button className="Toastify__toast-button" onClick={() => toast.dismiss()}>
+          <p className="text-lg font-semibold text-black">Sucesso!</p>
+          <p className="text-black">Adicionado à Lista de Desejos</p>
+          <button className="toast-button toast-button-success mt-8 pt-8" onClick={() => toast.dismiss()}>
             OK
           </button>
         </div>,
