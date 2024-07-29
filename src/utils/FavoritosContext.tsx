@@ -1,26 +1,38 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+// Interface para item de favorito
 export interface Item {
   id: string;
   title: string;
   imageSrc: string;
-  oldPrice: string;
   newPrice: string;
+  oldPrice: string;
+  additionalImages: string[];
+  moreImages: string[];
+  promotion?: string; // Antigo promotionEndTime
+  releaseDate?: string;
+  isOnPromotion?: boolean;
+  processor?: string;
+  memory?: string;
+  storage?: string;
 }
 
+// Interface para o contexto de favoritos
 interface FavoritosContextProps {
   favoritos: Item[];
   adicionarAFavorito: (item: Item) => void;
   excluirAFavorito: (id: string) => void;
-  contagemFavoritos: number; // Adiciona a contagem de favoritos
+  contagemFavoritos: number;
 }
 
+// Cria o contexto de favoritos
 const FavoritosContext = createContext<FavoritosContextProps | undefined>(undefined);
 
+// Provedor do contexto de favoritos
 export const FavoritosProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [favoritos, setFavoritos] = useState<Item[]>([]);
 
-  // Função para carregar os favoritos do localStorage
+  // Carrega favoritos do localStorage
   useEffect(() => {
     const savedFavoritos = localStorage.getItem('favoritos');
     if (savedFavoritos) {
@@ -28,27 +40,32 @@ export const FavoritosProvider: React.FC<{ children: ReactNode }> = ({ children 
     }
   }, []);
 
-  // Função para salvar os favoritos no localStorage
+  // Salva favoritos no localStorage
   useEffect(() => {
     localStorage.setItem('favoritos', JSON.stringify(favoritos));
   }, [favoritos]);
 
+  // Adiciona um item aos favoritos
   const adicionarAFavorito = (item: Item) => {
     setFavoritos(prevFavoritos => {
-      const novosFavoritos = [...prevFavoritos, item];
-      return novosFavoritos;
+      // Verifica se o item já existe
+      const itemExists = prevFavoritos.some(fav => fav.id === item.id);
+      if (!itemExists) {
+        return [...prevFavoritos, item];
+      }
+      return prevFavoritos;
     });
   };
 
+  // Remove um item dos favoritos
   const excluirAFavorito = (id: string) => {
-    setFavoritos(prevFavoritos => {
-      const novosFavoritos = prevFavoritos.filter(item => item.id !== id);
-      return novosFavoritos;
-    });
+    setFavoritos(prevFavoritos => prevFavoritos.filter(item => item.id !== id));
   };
 
-  const contagemFavoritos = favoritos.length; // Contagem de favoritos
+  // Contagem de favoritos
+  const contagemFavoritos = favoritos.length;
 
+  // Fornece o contexto para os filhos
   return (
     <FavoritosContext.Provider value={{ favoritos, adicionarAFavorito, excluirAFavorito, contagemFavoritos }}>
       {children}
@@ -56,6 +73,7 @@ export const FavoritosProvider: React.FC<{ children: ReactNode }> = ({ children 
   );
 };
 
+// Hook para usar o contexto de favoritos
 export const useFavoritos = () => {
   const context = useContext(FavoritosContext);
   if (!context) {
@@ -64,7 +82,7 @@ export const useFavoritos = () => {
   return context;
 };
 
-// Certifique-se de que há um componente React sendo exportado por padrão
+// Componente padrão exportado
 const FavoritosPage: React.FC = () => {
   return <div>Favoritos Page</div>;
 };

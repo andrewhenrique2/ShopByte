@@ -11,6 +11,7 @@ import useCountdownTimer from '../../utils/useCountdownTimer';
 import { formatCurrency, convertPrice } from '../../utils/formatPrice';
 import { calculateInstallments, getLastInstallmentValue } from '../../utils/installments';
 
+
 interface ItemDetailProps {
   imageSrc: string;
   moreImages: string[];
@@ -42,12 +43,13 @@ const ItemDetail = ({
   storage,
   id
 }: ItemDetailProps) => {
-  const { timeLeft, formatTime } = useCountdownTimer(promotionEndTime);
+  const { timeLeft, formatTime } = useCountdownTimer(promotionEndTime || '');
   const [showInstallments, setShowInstallments] = useState<boolean>(false);
   const [mainImage, setMainImage] = useState<string>(imageSrc);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const { favoritos } = useFavoritos();
   const handleFavoriteToggle = useHandleFavoriteToggle();
+  
 
   const productPrice = convertPrice(newPrice);
   const maxInstallments = 12;
@@ -115,7 +117,7 @@ const ItemDetail = ({
         {/* Ícone de favorito com a função de adicionar aos favoritos */}
         <div className="relative group">
           <button
-            onClick={() => handleFavoriteToggle(id, title, imageSrc, newPrice, oldPrice)}
+            onClick={() => handleFavoriteToggle(id, title, imageSrc, newPrice, oldPrice, moreImages, promotionEndTime, releaseDate, isNew, isOnPromotion, processor, memory, storage)}
             aria-label="Adicionar aos Favoritos"
             className="relative z-10">
 
@@ -362,43 +364,44 @@ const ItemDetail = ({
           </div>
         </div>
       </div>
+      
   );
 };
+
+
 
  {/*  PROPS PEGANDO DE CARD E ITENS */}
 
 import { GetServerSideProps } from 'next';
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
+  
   const {
     id = '',
     imageSrc = '',
-    additionalImages = [],
-    moreImages = [],
+    moreImages = '[]',
     title = '',
     oldPrice = '',
     newPrice = '',
-    installment = '',
     promotionEndTime = '',
     releaseDate = '',
-    isNew = false,
-    isOnPromotion = false,
+    isNew = 'false',
+    isOnPromotion = 'false',
     processor = '', 
     memory = '',   
     storage = '',   
   } = query;
-  console.log("Query Params:", query);
+
+  console.log("Query Params:", query); // Certifique-se de que os parâmetros estão corretos
 
   return {
     props: {
       id: id as string,
       imageSrc: imageSrc as string,
-      additionalImages: Array.isArray(additionalImages) ? additionalImages : JSON.parse(additionalImages as string),
-      moreImages: Array.isArray(moreImages) ? moreImages : JSON.parse(moreImages as string),
+      moreImages: JSON.parse(moreImages as string),
       title: title as string,
       oldPrice: oldPrice as string,
       newPrice: newPrice as string,
-      installment: installment as string,
       promotionEndTime: promotionEndTime as string,
       releaseDate: releaseDate as string,
       isNew: isNew === 'true',
@@ -409,6 +412,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
 
 export default ItemDetail;
 

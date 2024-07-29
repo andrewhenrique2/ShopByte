@@ -1,6 +1,11 @@
 // src/hooks/useCountdownTimer.ts
 import { useState, useEffect } from 'react';
 
+/**
+ * Hook para contagem regressiva até um horário final.
+ * @param endTime - Data e hora final para a contagem.
+ * @returns Objeto com o tempo restante em milissegundos e função para formatar o tempo.
+ */
 const useCountdownTimer = (endTime: string | undefined) => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
@@ -11,11 +16,7 @@ const useCountdownTimer = (endTime: string | undefined) => {
         const now = new Date().getTime();
         const distance = end - now;
 
-        if (distance < 0) {
-          setTimeLeft(0);
-        } else {
-          setTimeLeft(distance);
-        }
+        setTimeLeft(distance < 0 ? 0 : distance);
       }
     };
 
@@ -24,6 +25,11 @@ const useCountdownTimer = (endTime: string | undefined) => {
     return () => clearInterval(interval);
   }, [endTime]);
 
+  /**
+   * Formata o tempo restante em dias, horas, minutos e segundos.
+   * @param ms - Tempo restante em milissegundos.
+   * @returns Tempo formatado como string.
+   */
   const formatTime = (ms: number) => {
     const days = Math.floor(ms / (1000 * 60 * 60 * 24));
     const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

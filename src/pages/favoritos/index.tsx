@@ -1,10 +1,28 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FaCaretDown, FaSadTear } from 'react-icons/fa';
 
+interface Favorito {
+  id: string;
+  title: string;
+  newPrice?: string;
+  oldPrice?: string;
+  imageSrc: string;
+  isOnPromotion?: boolean;
+  promotionEndTime?: string;
+  additionalImages?: string[];
+  moreImages?: string[];
+  installment?: string;
+  releaseDate?: string;
+  isNew?: boolean;
+  processor?: string;
+  memory?: string;
+  storage?: string;
+}
+
 const Favoritos: React.FC = () => {
-  const [favoritos, setFavoritos] = useState<any[]>([]);
+  const [favoritos, setFavoritos] = useState<Favorito[]>([]);
   const [ordenacao, setOrdenacao] = useState<'maior' | 'menor' | 'original'>('original');
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
@@ -16,25 +34,40 @@ const Favoritos: React.FC = () => {
       return isNaN(precoNumerico) ? 0 : Math.floor(precoNumerico);
     };
 
-    const favoritosLocal = JSON.parse(localStorage.getItem('favoritos') || '[]');
+    const favoritosLocal = JSON.parse(localStorage.getItem('favoritos') || '[]') as Favorito[];
     console.log('Favoritos Originais:', favoritosLocal);
 
-    // Carregar a ordenação do localStorage, se disponível
-    const ordenacaoSalva = localStorage.getItem('ordenacao');
-    if (ordenacaoSalva) {
-      setOrdenacao(ordenacaoSalva as 'maior' | 'menor' | 'original');
-    }
-
-    let favoritosOrdenados = favoritosLocal.slice();
-
-    if (ordenacao === 'maior' || ordenacao === 'menor') {
-      favoritosOrdenados = favoritosLocal.slice().sort((a: any, b: any) => {
-        const precoA = extrairPreco(a.newPrice || '');
-        const precoB = extrairPreco(b.newPrice || '');
-        console.log(`Comparando: ${precoA} vs ${precoB}`);
-        return ordenacao === 'maior' ? precoB - precoA : precoA - precoB;
+    // Verificar se os parâmetros adicionais estão presentes
+    favoritosLocal.forEach(item => {
+      console.log('Item Favorito:', {
+        id: item.id,
+        title: item.title,
+        newPrice: item.newPrice,
+        oldPrice: item.oldPrice,
+        imageSrc: item.imageSrc,
+        isOnPromotion: item.isOnPromotion,
+        promotionEndTime: item.promotionEndTime,
+        additionalImages: item.additionalImages,
+        moreImages: item.moreImages,
+        installment: item.installment,
+        releaseDate: item.releaseDate,
+        isNew: item.isNew,
+        processor: item.processor,
+        memory: item.memory,
+        storage: item.storage,
       });
+    });
+
+    const ordenacaoSalva = localStorage.getItem('ordenacao') as 'maior' | 'menor' | 'original' | null;
+    if (ordenacaoSalva) {
+      setOrdenacao(ordenacaoSalva);
     }
+
+    const favoritosOrdenados = favoritosLocal.slice().sort((a, b) => {
+      const precoA = extrairPreco(a.newPrice || '');
+      const precoB = extrairPreco(b.newPrice || '');
+      return ordenacao === 'maior' ? precoB - precoA : precoA - precoB;
+    });
 
     console.log('Favoritos Ordenados:', favoritosOrdenados);
     setFavoritos(favoritosOrdenados);
@@ -46,23 +79,75 @@ const Favoritos: React.FC = () => {
     setMenuAberto(false);
   };
 
-  const handleCardClick = (item: any) => {
-    // Navegação para a página de detalhes do produto
-    const url = `/produto/${encodeURIComponent(item.id)}?title=${encodeURIComponent(item.title)}&newPrice=${encodeURIComponent(item.newPrice || '')}&oldPrice=${encodeURIComponent(item.oldPrice || '')}&imageSrc=${encodeURIComponent(item.imageSrc || '')}`;
+  const handleCardClick = (item: Favorito) => {
+    const params = new URLSearchParams({
+      title: item.title || '',
+      newPrice: item.newPrice || '',
+      oldPrice: item.oldPrice || '',
+      imageSrc: item.imageSrc || '',
+      isOnPromotion: item.isOnPromotion?.toString() || 'false',
+      promotionEndTime: item.promotionEndTime || '',
+      additionalImages: JSON.stringify(item.additionalImages || []),
+      moreImages: JSON.stringify(item.moreImages || []),
+      installment: item.installment || '',
+      releaseDate: item.releaseDate || '',
+      isNew: item.isNew?.toString() || 'false',
+      processor: item.processor || '',
+      memory: item.memory || '',
+      storage: item.storage || '',
+    });
+    const url = `/produto/${encodeURIComponent(item.id)}?${params.toString()}`;
+
+    console.log('Handle Card Click - Params:', {
+      title: item.title,
+      newPrice: item.newPrice,
+      oldPrice: item.oldPrice,
+      imageSrc: item.imageSrc,
+      isOnPromotion: item.isOnPromotion,
+      promotionEndTime: item.promotionEndTime,
+      additionalImages: item.additionalImages,
+      moreImages: item.moreImages,
+      installment: item.installment,
+      releaseDate: item.releaseDate,
+      isNew: item.isNew,
+      processor: item.processor,
+      memory: item.memory,
+      storage: item.storage,
+    });
+
     router.push(url);
+    console.log('Generated URL:', url);
   };
 
-  const handleRemoveClick = (e: React.MouseEvent, item: any) => {
-    e.stopPropagation(); // Impede a navegação para a página do produto
+  const handleRemoveClick = (e: React.MouseEvent, item: Favorito) => {
+    e.stopPropagation();
     const novosFavoritos = favoritos.filter(fav => fav.id !== item.id);
     localStorage.setItem('favoritos', JSON.stringify(novosFavoritos));
     setFavoritos(novosFavoritos);
+
+    console.log('Item Removido:', {
+      id: item.id,
+      title: item.title,
+      newPrice: item.newPrice,
+      oldPrice: item.oldPrice,
+      imageSrc: item.imageSrc,
+      isOnPromotion: item.isOnPromotion,
+      promotionEndTime: item.promotionEndTime,
+      additionalImages: item.additionalImages,
+      moreImages: item.moreImages,
+      installment: item.installment,
+      releaseDate: item.releaseDate,
+      isNew: item.isNew,
+      processor: item.processor,
+      memory: item.memory,
+      storage: item.storage,
+    });
   };
 
   return (
     <div className="flex flex-col">
       <div className="w-full px-[50px] mt-8">
-        <div className="h-[100px] bg-white flex items-center justify-between text-gray-500 px-4 border border-gray-300  relative below-768:bg-bg below-768:border-none">
+        <div className="h-[100px] bg-white flex items-center justify-between text-gray-500 px-4 border border-gray-300 relative below-768:bg-bg below-768:border-none">
           <button
             onClick={() => setMenuAberto(!menuAberto)}
             className={`flex items-center bg-orange-500 text-white border border-gray-300 rounded px-3 py-1 space-x-2 hover:bg-orange-400`}
@@ -101,7 +186,7 @@ const Favoritos: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {favoritos.map((item: any) => (
+              {favoritos.map(item => (
                 <div
                   key={item.id}
                   className="relative bg-card rounded-md p-4 flex flex-col items-center text-center mb-12 group shadow-sm cursor-pointer"
@@ -118,26 +203,25 @@ const Favoritos: React.FC = () => {
                   </div>
                   <h2 className="text-bg text-[16px] font-sans font-semibold mb-2">{item.title}</h2>
                   <div className="items-center gap-2 text-card flex flex-col justify-center">
-                    <span className="text-gray-600 text-[15px] line-through">
-                      <span className="text-gray-600">De:</span>
-                      <span className="ml-1 text-black">{item.oldPrice || 'Preço não disponível'}</span>
-                    </span>
-                    <span className="text-card text-[17.5px]">
-                      <span className="text-gray-600"> por:</span>
-                      <span className="ml-1 text-verdao text-lg font-bold">{item.newPrice || 'Preço não disponível'}</span>
-                    </span>
+                    {item.oldPrice && (
+                      <span className="text-gray-600 text-[15px] line-through">
+                        <span className="text-gray-600">De:</span>
+                        <span className="ml-1 text-black">{item.oldPrice}</span>
+                      </span>
+                    )}
+                    {item.newPrice && (
+                      <span className="text-card text-[17.5px]">
+                        <span className="text-gray-600"> por:</span>
+                        <span className="ml-1 text-verdao text-lg font-bold">{item.newPrice}</span>
+                      </span>
+                    )}
                   </div>
-                  <div className="flex gap-4 pt-4">
                   <button
-                    className="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
                     onClick={(e) => handleRemoveClick(e, item)}
                   >
                     Remover
                   </button>
-                  <button className="mt-2 bg-verdao text-white px-4 py-2 rounded-md hover:bg-green-700">
-                    Comprar
-                  </button>
-                </div>
                 </div>
               ))}
             </div>
