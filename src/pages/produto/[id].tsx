@@ -15,6 +15,7 @@ import { calculateInstallments, getLastInstallmentValue } from '../../utils/inst
 interface ItemDetailProps {
   imageSrc: string;
   moreImages: string[];
+  additionalImages?: string[];
   title: string;
   oldPrice: string;
   newPrice: string;
@@ -35,6 +36,7 @@ const ItemDetail = ({
   oldPrice,
   newPrice,
   promotionEndTime,
+  additionalImages,
   releaseDate,
   isNew,
   isOnPromotion,
@@ -117,7 +119,7 @@ const ItemDetail = ({
         {/* Ícone de favorito com a função de adicionar aos favoritos */}
         <div className="relative group">
           <button
-            onClick={() => handleFavoriteToggle(id, title, imageSrc, newPrice, oldPrice, moreImages, promotionEndTime, releaseDate, isNew, isOnPromotion, processor, memory, storage)}
+            onClick={() => handleFavoriteToggle(id, title, imageSrc, oldPrice, newPrice, moreImages, promotionEndTime, additionalImages, releaseDate, isNew, isOnPromotion, processor, memory, storage)}
             aria-label="Adicionar aos Favoritos"
             className="relative z-10">
 
@@ -380,6 +382,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     id = '',
     imageSrc = '',
     moreImages = '[]',
+    additionalImages = '[]',
     title = '',
     oldPrice = '',
     newPrice = '',
@@ -399,6 +402,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       id: id as string,
       imageSrc: imageSrc as string,
       moreImages: JSON.parse(moreImages as string),
+      additionalImages: JSON.parse(additionalImages as string),
       title: title as string,
       oldPrice: oldPrice as string,
       newPrice: newPrice as string,
