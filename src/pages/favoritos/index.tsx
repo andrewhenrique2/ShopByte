@@ -28,7 +28,6 @@ const Favoritos: React.FC = () => {
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
 
-
   useEffect(() => {
     const extrairPreco = (preco: string) => {
       if (!preco) return 0;
@@ -186,7 +185,7 @@ const Favoritos: React.FC = () => {
                     />
                   </div>
                   <h2 className="text-bg text-[16px] font-sans font-semibold mb-2">{item.title}</h2>
-                  <div className="items-center gap-2 text-card flex flex-col justify-center mb-12">
+                  <div className="items-center gap-2 text-card flex flex-col justify-center mb-4">
                     {item.oldPrice && (
                       <span className="text-gray-600 text-[15px] line-through">
                         <span className="text-gray-600">De:</span>
@@ -195,24 +194,23 @@ const Favoritos: React.FC = () => {
                     )}
                     {item.newPrice && (
                       <span className="text-card text-[17.5px]">
-                        <span className="text-gray-600"> por:</span>
-                        <span className="ml-1 text-verdao text-lg font-bold">{item.newPrice}</span>
+                        <span className="text-verdao font-black"> por:</span>
+                        <span className="ml-1 text-verdao font-black">{item.newPrice}</span>
                       </span>
                     )}
                   </div>
-  
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4">
+                  <div className="w-full flex gap-3 mt-4">
                     <button
-                      className="bg-red-500 text-white border border-red-500 rounded-md w-32 h-10 flex items-center justify-center text-xs hover:bg-red-600 transition-colors duration-150"
                       onClick={(e) => handleRemoveClick(e, item)}
+                      className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-400 flex-1"
                     >
                       Remover
                     </button>
                     <button
-                      className="bg-green-500 text-white border border-green-500 rounded-md w-32 h-10 flex items-center justify-center text-xs hover:bg-green-600 transition-colors duration-150"
-                      onClick={() => {/* Adicione a lógica para o botão Comprar */}}
+                      onClick={(e) => handleCardClick(item)}
+                      className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-400 flex-1"
                     >
-                      Comprar
+                      Ver Detalhes
                     </button>
                   </div>
                 </div>
@@ -223,7 +221,6 @@ const Favoritos: React.FC = () => {
       </div>
     </div>
   );
-  
   
   
 };
