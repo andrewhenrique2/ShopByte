@@ -65,8 +65,10 @@ Tailwind CSS: Framework CSS para estilização.  <br/>
 LocalStorage: Utilizado para armazenamento de favoritos.  <br/>
 </div>
 
+<br/>
 
-🔧 Instalação e Configuração
+
+## 🔧 Instalação e Configuração
 <br/>
 
 Clone o Repositório <br/>
