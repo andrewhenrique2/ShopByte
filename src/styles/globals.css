@@ -107,45 +107,36 @@ header {
   animation: fire 10s ease infinite;
 }
 
-/* styles/globals.css */
-/* Remove o botão de fechar para todos os toasts */
-.Toastify__toast-container .Toastify__toast-close-button {
-  display: none !important;
-  background-color: white;
+/* Toast Customizado */
+.custom-toast-error,
+.custom-toast-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  max-width: 600px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  text-align: center;
+  color: #fff;
+  margin: 0 auto; /* Centralizar horizontalmente */
 }
 
-/* Estilos personalizados para o Toastify */
-.custom-toast-container {
+.custom-toast-error {
+  background: #dc3545; /* Cor de fundo para erro */
+}
+
+.custom-toast-success {
+  background: #28a745; /* Cor de fundo para sucesso */
+}
+
+.Toastify__toast-container {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.Toastify__toast {
-  border-radius: 12px;
-  width: 950px; /* Largura ajustada */
-  height: 250px; /* Altura ajustada */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: Arial, sans-serif;
-  font-size: 22px;
-  text-align: center;
-  color: #fff;
-}
-
-.Toastify__toast--success {
-  background: #28a745; /* Cor de fundo para sucesso */
-}
-
-.Toastify__toast--error {
-  background: #dc3545; /* Cor de fundo para erro */
 }
 
 .Toastify__toast-body {
@@ -159,9 +150,9 @@ header {
   display: none; /* Remove o ícone padrão */
 }
 
-.Toastify__toast-button {
+.toast-button {
   background: #ebebeb;
-  margin-top: 2rem;
+  margin-top: 1rem;
   color: #28a745; /* Cor do botão para sucesso */
   border: none;
   border-radius: 4px;
@@ -170,10 +161,14 @@ header {
   font-size: 14px;
 }
 
-.Toastify__toast-button:hover {
+.toast-button:hover {
   background: #f1f1f1;
 }
 
-.Toastify__toast-button--error {
+.toast-button-error {
   color: #dc3545; /* Cor do botão para erro */
+}
+
+.toast-button-success {
+  color: #28a745; /* Cor do botão para sucesso */
 }

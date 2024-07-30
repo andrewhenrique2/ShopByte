@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { StaticImageData } from 'next/image';
 import { FaBolt } from 'react-icons/fa';
 import Image from 'next/image';
+import { useCart } from './CartContext';  // Atualize o caminho conforme necessário
 
-// Interface para o tipo de tempo restante
 interface TimeRemaining {
   days: number;
   hours: number;
@@ -60,6 +60,7 @@ const Card = ({
 }: CardProps) => {
   const router = useRouter();
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (promotionEndTime) {
@@ -105,6 +106,19 @@ const Card = ({
         promotionEndTime,
       },
     });
+  };
+
+  const handleAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    const item = {
+      id,
+      title,
+      imageSrc: typeof imageSrc === 'string' ? imageSrc : imageSrc.src,
+      newPrice: newPrice || '',
+      quantity: 1,
+    };
+    console.log('Item adicionado ao carrinho:', item);
+    addToCart(item);
   };
 
   const installment = calculateInstallment(newPrice);
@@ -183,12 +197,15 @@ const Card = ({
       {newPrice && (
         <span className="text-verdao font-black text-[25px] mb-1">{newPrice} <span className='text-sm font-sans'>à vista</span></span>
       )}
-      {installment && (
-        <span className="text-gray-700 text-[16px]">{installment}</span>
+      {newPrice && (
+        <span className="text-gray-500 font-sans text-[12px] mb-1">{installment}</span>
       )}
 
       <div className="absolute inset-x-0 bottom-[-40px] flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <button className="bg-green-500 text-white py-4 px-6 rounded-md w-full rounded-t-none font-black shadow-md hover:shadow-lg focus:shadow-strong-lg">
+        <button
+          onClick={handleAddToCart}
+          className="bg-green-500 text-white py-4 px-6 rounded-md w-full rounded-t-none font-black shadow-md hover:shadow-lg focus:shadow-strong-lg"
+        >
           Adicionar ao carrinho
         </button>
       </div>

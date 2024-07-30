@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FaCaretDown, FaSadTear } from 'react-icons/fa';
-import { useHandleFavoriteToggle } from '../../utils/handleFavoriteToggle'; // Importa o hook
+import { useFavoritos } from '../../utils/FavoritosContext'; // Importa o contexto
 
 interface Favorito {
   id: string;
@@ -23,56 +23,17 @@ interface Favorito {
 }
 
 const Favoritos: React.FC = () => {
-  const [favoritos, setFavoritos] = useState<Favorito[]>([]);
+  const { favoritos, excluirAFavorito } = useFavoritos();
   const [ordenacao, setOrdenacao] = useState<'maior' | 'menor' | 'original'>('original');
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const extrairPreco = (preco: string) => {
-      if (!preco) return 0;
-      const precoNumerico = parseFloat(preco.replace('R$', '').replace(/\s/g, '').replace(/\./g, '').replace(',', '.'));
-      return isNaN(precoNumerico) ? 0 : Math.floor(precoNumerico);
-    };
-
-    const favoritosLocal = JSON.parse(localStorage.getItem('favoritos') || '[]') as Favorito[];
-    console.log('Favoritos Originais:', favoritosLocal);
-
-    // Verificar se os parâmetros adicionais estão presentes
-    favoritosLocal.forEach(item => {
-      console.log('Item Favorito:', {
-        id: item.id,
-        title: item.title,
-        newPrice: item.newPrice,
-        oldPrice: item.oldPrice,
-        imageSrc: item.imageSrc,
-        isOnPromotion: item.isOnPromotion,
-        promotionEndTime: item.promotionEndTime,
-        additionalImages: item.additionalImages,
-        moreImages: item.moreImages,
-        installment: item.installment,
-        releaseDate: item.releaseDate,
-        isNew: item.isNew,
-        processor: item.processor,
-        memory: item.memory,
-        storage: item.storage,
-      });
-    });
-
     const ordenacaoSalva = localStorage.getItem('ordenacao') as 'maior' | 'menor' | 'original' | null;
     if (ordenacaoSalva) {
       setOrdenacao(ordenacaoSalva);
     }
-
-    const favoritosOrdenados = favoritosLocal.slice().sort((a, b) => {
-      const precoA = extrairPreco(a.newPrice || '');
-      const precoB = extrairPreco(b.newPrice || '');
-      return ordenacao === 'maior' ? precoB - precoA : precoA - precoB;
-    });
-
-    console.log('Favoritos Ordenados:', favoritosOrdenados);
-    setFavoritos(favoritosOrdenados);
-  }, [ordenacao]);
+  }, []);
 
   const handleOrdenacaoChange = (tipo: 'maior' | 'menor' | 'original') => {
     setOrdenacao(tipo);
@@ -99,32 +60,12 @@ const Favoritos: React.FC = () => {
     });
     const url = `/produto/${encodeURIComponent(item.id)}?${params.toString()}`;
 
-    console.log('Handle Card Click - Params:', {
-      title: item.title,
-      newPrice: item.newPrice,
-      oldPrice: item.oldPrice,
-      imageSrc: item.imageSrc,
-      isOnPromotion: item.isOnPromotion,
-      promotionEndTime: item.promotionEndTime,
-      additionalImages: item.additionalImages,
-      moreImages: item.moreImages,
-      installment: item.installment,
-      releaseDate: item.releaseDate,
-      isNew: item.isNew,
-      processor: item.processor,
-      memory: item.memory,
-      storage: item.storage,
-    });
-
     router.push(url);
-    console.log('Generated URL:', url);
   };
 
   const handleRemoveClick = (e: React.MouseEvent, item: Favorito) => {
     e.stopPropagation();
-    const novosFavoritos = favoritos.filter(fav => fav.id !== item.id);
-    localStorage.setItem('favoritos', JSON.stringify(novosFavoritos));
-    setFavoritos(novosFavoritos);
+    excluirAFavorito(item.id); // Chama a função do contexto
   };
 
   return (
@@ -221,8 +162,6 @@ const Favoritos: React.FC = () => {
       </div>
     </div>
   );
-  
-  
 };
 
 export default Favoritos;
