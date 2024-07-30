@@ -29,6 +29,7 @@
 ShopByte é um projeto de e-commerce desenvolvido com React, Next.js, e outras tecnologias modernas. O projeto oferece uma experiência de compra online interativa e responsiva, com diversos componentes e funcionalidades para melhorar a usabilidade e a interação do usuário.
 
 
+</div>
 
 
 <div align="start">
@@ -99,4 +100,3 @@ Inicie o Servidor de Desenvolvimento <br/>
 
 
 
-</div>
