@@ -10,6 +10,8 @@ import { formatCurrency, calculateTotal } from '../../utils/formatPrice';
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cep, setCep] = useState(''); // Estado para armazenar o CEP
+
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const cartRef = useRef<HTMLDivElement | null>(null);
@@ -50,6 +52,11 @@ const Header: React.FC = () => {
 
   const handleRemoveItem = (itemId: string) => {
     removeFromCart(itemId);
+  };
+
+  const handleAddCep = () => {
+    // Lógica para adicionar o CEP, como validação e armazenamento
+    console.log('CEP adicionado:', cep);
   };
 
   return (
@@ -125,6 +132,17 @@ const Header: React.FC = () => {
             >
               {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
+            <button 
+              onClick={() => setIsCartOpen(!isCartOpen)} 
+              className="ml-4 focus:outline-none relative hover:text-link"
+            >
+              <FaShoppingCart size={24} />
+              {cartItems.length > 0 && (
+                <span className="absolute top-[-4px] right-[-4px] inline-block w-4 h-4 bg-orange-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
+            </button>
           </div>
         </div>
 
@@ -148,18 +166,14 @@ const Header: React.FC = () => {
                   </span>
                 )}
               </Link>
-              <Link href="/cart" className="hover:text-link flex items-center space-x-2" onClick={handleMenuItemClick}>
-                <FaShoppingCart size={24}/>
-                <span>Carrinho</span>
-              </Link>
             </div>
           </div>
         )}
       </header>
     
       {isCartOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
-          <div ref={cartRef} className="fixed right-0 top-0 w-80 h-full bg-white shadow-md p-4 z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div ref={cartRef} className="fixed inset-y-0 right-0 w-80 h-full bg-white shadow-md p-4 z-50 overflow-y-auto">
             <h2 className="text-lg font-black text-gray-500">Resumo de Compras</h2>
             <button onClick={() => setIsCartOpen(false)} className="absolute top-4 right-4 text-black">
               <FaTimes size={24} />
@@ -193,9 +207,21 @@ const Header: React.FC = () => {
                 <p className="text-center text-gray-500">Seu carrinho está vazio.</p>
               )}
             </div>
-            <div className="flex justify-between border-t border-gray-300 pt-2">
+            <div className="flex flex-col justify-between border-t border-gray-300 pt-2">
               <p className="font-bold text-bg">Total:</p>
               <p className="font-bold text-bg">{formatCurrency(calculateTotal(cartItems))}</p>
+            </div>
+            <div className="flex mt-4">
+              <input
+                type="text"
+                placeholder="Digite o CEP"
+                value={cep}
+                onChange={(e) => setCep(e.target.value)}
+                className="border border-gray-300 rounded-l-md p-2 text-black w-full text-sm focus:outline-none"
+              />
+              <button onClick={handleAddCep} className="bg-orange-500 text-white py-2 px-4 rounded-r-md hover:bg-orange-400">
+                Adicionar CEP
+              </button>
             </div>
             <button className="w-full bg-orange-500 text-white py-2 mt-4 rounded">Finalizar Compra</button>
           </div>
