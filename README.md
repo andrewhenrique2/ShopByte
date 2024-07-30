@@ -26,39 +26,43 @@
 ## 🖥️ Descrição do Projeto <br/>
 
 
-O ShopByte é um e-commerce em desenvolvimento, focado na venda de hardware. O site está sendo construído com React e Next.js para oferecer uma experiência de compra otimizada, com informações detalhadas sobre produtos, imagens, promoções e opções de parcelamento. <br/>
+ShopByte é um projeto de e-commerce desenvolvido com React, Next.js, e outras tecnologias modernas. O projeto oferece uma experiência de compra online interativa e responsiva, com diversos componentes e funcionalidades para melhorar a usabilidade e a interação do usuário.
 
 
-📦 Funcionalidades
 
-Galeria de Imagens: Exibe imagens do produto e permite visualização adicional. <br/>
 
-Detalhes do Produto: Fornece informações como processador, memória e armazenamento. <br/>
-
-Favoritos: Adicione e remova itens dos favoritos, com contagem de favoritos e armazenamento persistente no localStorage.  <br/>
-
-Ordenação: Ordene itens por preço (menor ou maior) diretamente na página de favoritos.  <br/>
-
-Promoções: Inclui uma contagem regressiva para promoções e exibe uma mensagem quando a promoção termina. <br/>
-
-Parcelamento: Oferece opções de parcelamento para facilitar a compra. <br/>
+<div align="start">
  
-Carrinho de Compras: Permite adicionar produtos ao carrinho e visualizar detalhes do pedido. <br/>
+## 📦 Funcionalidades
+<br/>
+ 
+Header: Inclui um menu de navegação, barra de pesquisa, ícones de usuário, favoritos e carrinho de compras. <br/>
+Banner: Exibe imagens promocionais com transições suaves usando Framer Motion. <br/>
+Atrativos: Mostra banners de marcas ou promoções especiais. <br/>
+Itens: Renderiza uma lista de produtos com informações detalhadas e preços promocionais. <br/>
+ItemDetail: Exibe detalhes completos do produto, incluindo imagens adicionais, preço antigo e novo, características técnicas, e opções de parcelamento. <br/>
+Footer: Contém informações institucionais e formas de pagamento. <br/>
+Carrinho de Compras: Gerencia itens adicionados ao carrinho com opções para alterar quantidades e remover itens. <br/>
+Favoritos: Permite adicionar e remover produtos da lista de favoritos com notificações animadas. <br/>
+Contagem Regressiva: Exibe o tempo restante para promoções de produtos. <br/>
+Parcelamento: Calcula e exibe as opções de parcelamento para os produtos. <br/>
+</div>
 
-🚀 Tecnologias Utilizadas <br/>
 
-
-React: Biblioteca JavaScript para construir interfaces de usuário. <br/>
-
-Next.js: Framework React para renderização do lado do servidor e geração de sites estáticos. <br/>
-
-TypeScript: Superset do JavaScript com tipos estáticos para maior segurança. <br/>
-
-Tailwind CSS: Framework CSS utilitário para estilização rápida e responsiva. <br/>
-
-Framer Motion: Biblioteca para animações e transições suaves. <br/>
-
-Next.js Image: Componente otimizado de imagem para melhor desempenho. <br/>
+<div align="start">
+ 
+## 🚀 Tecnologias Utilizadas 
+<br/>
+React: Biblioteca JavaScript para construção de interfaces de usuário.  <br/>
+Next.js: Framework React com funcionalidades de renderização do lado do servidor e geração de sites estáticos.  <br/>
+TypeScript: Superset de JavaScript que adiciona tipagem estática ao idioma.  <br/>
+Framer Motion: Biblioteca para animações em React.  <br/>
+React Icons: Conjunto de ícones populares para React.  <br/>
+React Slick: Componente de carrossel para React.  <br/>
+React Toastify: Biblioteca para notificações em React.  <br/>
+Tailwind CSS: Framework CSS para estilização.  <br/> 
+LocalStorage: Utilizado para armazenamento de favoritos.  <br/>
+</div>
 
 
 🔧 Instalação e Configuração
