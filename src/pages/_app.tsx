@@ -9,15 +9,19 @@ import { FavoritosProvider } from '../utils/FavoritosContext';
 import { CartProvider } from '../components/Card/CartContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const showBanner = router.pathname !== '/login';
+
   return (
     <FavoritosProvider>
       <CartProvider>
         <div className="relative">
           <Header />
           <main className="pt-[var(--header-height)] below-768:bg-container">
-            <Banner />
+            {showBanner && <Banner />}
             <Component {...pageProps} />
           </main>
           <Footer />
