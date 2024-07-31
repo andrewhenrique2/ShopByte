@@ -21,22 +21,22 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <Head>
         <title>Login - ShopByte</title>
       </Head>
-      <div className="flex shadow-lg">
-        <div className="bg-gray-200 p-8 rounded-l-lg text-center w-full max-w-md">
-          <FaUser className="mx-auto mb-4 text-gray-500" size={50} />
+      <div className="flex flex-col md:flex-row shadow-lg max-w-4xl w-full">
+        <div className="bg-gray-200 p-8 rounded-t-lg md:rounded-l-lg md:rounded-r-none text-center flex flex-col items-center w-full md:w-1/2">
+          <FaUser className="text-5xl mb-4 text-gray-500" />
           <h1 className="text-2xl text-orange-500 mb-2 font-black">
             LOGIN
           </h1>
-          <h2 className="text-[18px] mb-4 text-bg">
+          <h2 className="text-[18px] mb-4 text-gray-800">
             sou cliente
           </h2>
           <p className="text-gray-600">Olá! Se você já comprou na loja da ShopByte antes, por favor, informe seu e-mail e senha.</p>
         </div>
-        <div className="bg-white p-8 rounded-r-lg text-center w-full max-w-md shadow-xl">
+        <div className="bg-white p-8 rounded-b-lg md:rounded-r-lg md:rounded-l-none text-center w-full md:w-1/2 shadow-xl">
           <form onSubmit={handleLogin}>
             <div className="mb-4">
               <input
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
                 placeholder="E-MAIL, CPF OU CNPJ"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border-b-2 border-b-gray-300 focus:outline-none focus:border-orange-500 text-bg shadow"
+                className="w-full px-3 py-2 border-b-2 border-b-gray-300 focus:outline-none focus:border-orange-500 text-gray-800 shadow"
                 required
               />
             </div>
@@ -54,7 +54,7 @@ const Login: React.FC = () => {
                 placeholder="SENHA"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border-b-2 border-b-gray-300 focus:outline-none focus:border-orange-500 text-bg shadow"
+                className="w-full px-3 py-2 border-b-2 border-b-gray-300 focus:outline-none focus:border-orange-500 text-gray-800 shadow"
                 required
               />
               <FaLock className="absolute right-3 top-3 text-gray-400" />
