@@ -54,15 +54,18 @@ Parcelamento: Calcula e exibe as opções de parcelamento para os produtos. <br/
  
 ## 🚀 Tecnologias Utilizadas 
 <br/>
-React: Biblioteca JavaScript para construção de interfaces de usuário.  <br/>
-Next.js: Framework React com funcionalidades de renderização do lado do servidor e geração de sites estáticos.  <br/>
-TypeScript: Superset de JavaScript que adiciona tipagem estática ao idioma.  <br/>
-Framer Motion: Biblioteca para animações em React.  <br/>
-React Icons: Conjunto de ícones populares para React.  <br/>
-React Slick: Componente de carrossel para React.  <br/>
-React Toastify: Biblioteca para notificações em React.  <br/>
-Tailwind CSS: Framework CSS para estilização.  <br/> 
-LocalStorage: Utilizado para armazenamento de favoritos.  <br/>
+React: Biblioteca JavaScript para construção de interfaces de usuário. <br/>
+Next.js: Framework React com funcionalidades de renderização do lado do servidor e geração de sites estáticos. <br/>
+TypeScript: Superset de JavaScript que adiciona tipagem estática ao idioma. <br/>
+Framer Motion: Biblioteca para animações em React. <br/>
+React Icons: Conjunto de ícones populares para React. <br/>
+React Slick: Componente de carrossel para React. <br/>
+React Toastify: Biblioteca para notificações em React. <br/>
+Tailwind CSS: Framework CSS para estilização. <br/>
+LocalStorage: Utilizado para armazenamento de favoritos. <br/>
+Firebase: Usado para armazenamento de imagens para otimizar o desempenho do frontend. <br/>
+Node.js e Express: Backend para fornecer informações dos produtos. <br/>
+MongoDB: Banco de dados para gerenciar informações dos produtos e usuários. <br/>
 </div>
 
 <br/>
