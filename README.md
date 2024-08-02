@@ -63,9 +63,7 @@ React Slick: Componente de carrossel para React. <br/>
 React Toastify: Biblioteca para notificações em React. <br/>
 Tailwind CSS: Framework CSS para estilização. <br/>
 LocalStorage: Utilizado para armazenamento de favoritos. <br/>
-Firebase: Usado para armazenamento de imagens para otimizar o desempenho do frontend. <br/>
-Node.js e Express: Backend para fornecer informações dos produtos. <br/>
-MongoDB: Banco de dados para gerenciar informações dos produtos e usuários. <br/>
+
 </div>
 
 <br/>
