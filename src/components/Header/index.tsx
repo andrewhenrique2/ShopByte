@@ -258,7 +258,7 @@ const Header: React.FC = () => {
         <div className="container flex items-center w-full justify-center px-4 sm:px-6 lg:px-8">
           <div className="flex justify-start mr-4 lg:mr-[74px]">
             <Link
-              href="/departamentos"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2 bg-black p-2 rounded-lg"
             >
               <FaBars size={20} />
@@ -268,43 +268,43 @@ const Header: React.FC = () => {
 
           <div className="flex justify-start flex-wrap gap-2 md:gap-4 lg:gap-8 w-full md:w-auto">
             <Link
-              href="/promocoes"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>PROMOÇÕES</span>
             </Link>
             <Link
-              href="/kitupgrade"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>MOUSE</span>
             </Link>
             <Link
-              href="/atendimento"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>TECLADO</span>
             </Link>
             <Link
-              href="/mousepad"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>MOUSEPAD</span>
             </Link>
             <Link
-              href="/monitores"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>MONITORES</span>
             </Link>
             <Link
-              href="/notebooks"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>NOTEBOOKS</span>
             </Link>
             <Link
-              href="/pcgamer"
+              href="/"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>PC GAMER</span>
