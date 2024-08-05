@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <div className="relative">
           <Header />
           <main className="pt-[var(--header-height)] below-768:bg-container">
-            {showBanner && <Banner />}
+            {showBanner && <Banner {...pageProps} />}
             <Component {...pageProps} />
           </main>
           <Footer />

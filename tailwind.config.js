@@ -31,8 +31,9 @@ module.exports = {
       },
       screens: {
         'below-1500': {'max': '1370px'},
-        'below-1000': {'max': '1000px'},
+        'below-1000': {'max': '1028px'},
         'below-768': {'max': '768px'},
+        'below-1600': {'max': '1600px'},
 
         '4xl': '1600px',
         '5xl': '1920px',
