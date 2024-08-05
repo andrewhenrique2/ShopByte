@@ -114,10 +114,10 @@ const Header: React.FC = () => {
             </span>
           </Link>
 
-          <div className="flex justify-center flex-1 max-w-[600px] hidden sm:flex">
+          <div className="flex justify-center flex-1 max-w-[600px]  sm:flex">
             <div className="flex w-full h-[45px]">
               <input
-                className={`rounded-l-md w-full p-1 text-sm focus:outline-none p-4 border-none ${
+                className={`rounded-l-md w-full p-1 text-sm focus:outline-none  border-none ${
                   isScrolled
                     ? 'bg-dark text-white border-none'
                     : 'border border-gray-300 text-black'
