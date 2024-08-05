@@ -17,18 +17,22 @@ import logo from '../../../public/shopbyte.png';
 import { useFavoritos } from '../../utils/FavoritosContext';
 import { useCart } from '../../components/Card/CartContext';
 import { formatCurrency, calculateTotal } from '../../utils/formatPrice';
+import { products } from '../../pages/itens'; // Importa a lista de produtos
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [cep, setCep] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para o termo de busca
+  const [filteredProducts, setFilteredProducts] = useState(products); // Estado para os produtos filtrados
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const cartRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLHeadingElement | null>(null);
   const navRef = useRef<HTMLDivElement | null>(null);
+  const searchRef = useRef<HTMLDivElement | null>(null); // Ref para a área de busca
 
   const { contagemFavoritos } = useFavoritos();
   const { cartItems, updateItemQuantity, removeFromCart } = useCart();
@@ -39,13 +43,14 @@ const Header: React.FC = () => {
         !menuRef.current.contains(event.target as Node) &&
         buttonRef.current &&
         !buttonRef.current.contains(event.target as Node)) ||
-      (cartRef.current && !cartRef.current.contains(event.target as Node))
+      (cartRef.current && !cartRef.current.contains(event.target as Node)) ||
+      (searchRef.current && !searchRef.current.contains(event.target as Node))
     ) {
       setIsMenuOpen(false);
       setIsCartOpen(false);
+      setSearchTerm(''); // Fecha o dropdown de busca
     }
   };
-  
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -64,6 +69,18 @@ const Header: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Atualiza os produtos filtrados sempre que o termo de busca muda
+  useEffect(() => {
+    if (searchTerm) {
+      const results = products.filter(product =>
+        product.title.toLowerCase().startsWith(searchTerm.toLowerCase())
+      );
+      setFilteredProducts(results);
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [searchTerm]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -91,7 +108,7 @@ const Header: React.FC = () => {
         ref={headerRef}
         className="bg-bg text-white fixed w-full z-50 h-auto flex top-0 px-4 md:px-10 lg:px-80 gap-12 below-1600:lg:px-10 "
       >
-        <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 gap-8 below-1000:px-0 below-1000:gap-2" >
+        <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 gap-8 below-1000:px-0 below-1000:gap-2">
           <Link href="/" className="flex items-center">
             <Image
               src={logo}
@@ -114,25 +131,55 @@ const Header: React.FC = () => {
             </span>
           </Link>
 
-          <div className="flex justify-center flex-1 max-w-[600px]  sm:flex">
-            <div className="flex w-full h-[45px]">
+          <div className="flex justify-center flex-1 max-w-[600px] sm:flex" ref={searchRef}>
+            <div className="flex w-full h-[45px] relative">
               <input
-                className={`rounded-l-md w-full p-1 text-sm focus:outline-none  border-none ${
+                className={`w-full p-1 text-sm focus:outline-none border-none ${
                   isScrolled
-                    ? 'bg-dark text-white border-none'
-                    : 'border border-gray-300 text-black'
-                }`}
+                    ? 'bg-dark text-white'
+                    : 'border-gray-300 text-black'
+                } ${
+                  searchTerm ? 'rounded-t-md' : 'rounded-l-md'
+                }`} // Condicional para o border-radius
                 placeholder="Pesquise o seu produto"
                 type="text"
                 id="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button
-                className={`p-2 rounded-r-md focus:outline-none ${
+                className={`p-2 focus:outline-none ${
                   isScrolled ? 'bg-dark text-white' : 'bg-white text-black'
-                }`}
+                } ${searchTerm ? 'rounded-t-md' : 'rounded-r-md'}`} // Condicional para o border-radius
               >
                 <FaSearch className="cursor-pointer" />
               </button>
+
+              {/* Exibição dos resultados da busca */}
+              {searchTerm && (
+                <div className="absolute top-full left-0 right-0 bg-white text-black shadow-lg max-h-60 overflow-y-auto z-50">
+                  <h3 className="text-lg font-semibold p-2">Resultados da Busca</h3>
+                  {filteredProducts.length > 0 ? (
+                    <ul>
+                      {filteredProducts.map((product) => (
+                        <Link key={product.id} href={`/produto/${product.id}`}>
+                          <li className="flex items-center p-2 hover:bg-gray-100 cursor-pointer" onClick={() => setSearchTerm('')}>
+                            <Image
+                              src={product.imageSrc}
+                              alt={product.title}
+                              width={50}
+                              height={50}
+                            />
+                            <span className="ml-4">{product.title}</span>
+                          </li>
+                        </Link>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500 p-2">Nenhum produto encontrado.</p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -212,7 +259,7 @@ const Header: React.FC = () => {
           >
             <div className="flex flex-col space-y-4">
               <input
-                className="border border-gray-300 rounded-md p-2 text-black w-full text-sm focus:outline-none"
+                className="border-none rounded-md p-2 text-black w-full text-sm focus:outline-none"
                 placeholder="Pesquise o seu produto"
                 type="text"
                 id="search"
@@ -254,7 +301,8 @@ const Header: React.FC = () => {
 
       <nav
         ref={navRef}
-        className="bg-bg text-white fixed w-full top-[80px] pb-2 pt-1 z-40 justify-center items-center flex text-sm sm:gap-4 lg:gap-8 below-1000:hidden"      >
+        className="bg-bg text-white fixed w-full top-[80px] pb-2 pt-1 z-40 justify-center items-center flex text-sm sm:gap-4 lg:gap-8 below-1000:hidden"
+      >
         <div className="container flex items-center w-full justify-center px-4 sm:px-6 lg:px-8">
           <div className="flex justify-start mr-4 lg:mr-[74px]">
             <Link
