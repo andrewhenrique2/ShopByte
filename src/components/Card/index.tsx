@@ -4,7 +4,8 @@ import { StaticImageData } from 'next/image';
 import { FaBolt } from 'react-icons/fa';
 import Image from 'next/image';
 import { useCart } from './CartContext';
-import { toast } from 'react-toastify'; // Importação do toast
+import { toast } from 'react-toastify';
+import { handleProductNavigation } from '../../utils/navigationUtils';
 
 interface TimeRemaining {
   days: number;
@@ -43,8 +44,6 @@ interface CardProps {
   memory?: string;
   storage?: string;
 }
-
-
 
 const Card = ({
   id,
@@ -89,26 +88,21 @@ const Card = ({
   };
 
   const handleCardClick = () => {
-    router.push({
-      pathname: `/produto/${id}`,
-      query: {
-        title,
-        imageSrc: typeof imageSrc === 'string' ? imageSrc : (imageSrc as StaticImageData).src,
-        oldPrice,
-        newPrice,
-        additionalImages: JSON.stringify(
-          additionalImages.map(img => (typeof img === 'string' ? img : (img as StaticImageData).src))
-        ),
-        moreImages: JSON.stringify(
-          moreImages.map(img => (typeof img === 'string' ? img : (img as StaticImageData).src))
-        ),
-        isOnPromotion,
-        processor,
-        memory,
-        storage,
-        promotionEndTime,
-      },
-    });
+    const product = {
+      id,
+      title,
+      imageSrc,
+      oldPrice,
+      newPrice,
+      additionalImages,
+      moreImages,
+      isOnPromotion,
+      promotionEndTime,
+      processor,
+      memory,
+      storage,
+    };
+    handleProductNavigation(router, product);
   };
 
   const handleAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -122,7 +116,7 @@ const Card = ({
     };
     console.log('Item adicionado ao carrinho:', item);
     addToCart(item);
-    toast.success('Item adicionado ao carrinho!'); // Adiciona a mensagem de sucesso
+    toast.success('Item adicionado ao carrinho!');
   };
 
   const installment = calculateInstallment(newPrice);
@@ -164,7 +158,11 @@ const Card = ({
           <div className="text-white px-2 font-black bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col text-start">
             Processador{' '}
             <span
-              className={`font-black text-[14px] ${processor.toLowerCase().includes('ryzen') ? 'text-orange-500' : 'text-blue-500'}`}
+              className={`font-black text-[14px] ${
+                processor.toLowerCase().includes('ryzen')
+                  ? 'text-orange-500'
+                  : 'text-blue-500'
+              }`}
             >
               {processor}
             </span>
@@ -172,12 +170,14 @@ const Card = ({
         )}
         {memory && (
           <div className="text-white px-2 text-start font-black bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col">
-            Memória <span className='text-pink font-black text-[14px]'>{memory}</span>
+            Memória{' '}
+            <span className="text-pink font-black text-[14px]">{memory}</span>
           </div>
         )}
         {storage && (
           <div className="text-white font-black text-start px-2 bg-black rounded-md text-[11px] mb-1 border-solid flex flex-col">
-            Armazenamento <span className='text-cian font-black text-[14px]'>{storage}</span>
+            Armazenamento{' '}
+            <span className="text-cian font-black text-[14px]">{storage}</span>
           </div>
         )}
       </div>
@@ -188,7 +188,8 @@ const Card = ({
           Promoção
           {promotionEndTime && timeRemaining && (
             <div className="mt-2 text-xs">
-              {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m {timeRemaining.seconds}s
+              {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m{' '}
+              {timeRemaining.seconds}s
             </div>
           )}
         </div>
@@ -196,13 +197,19 @@ const Card = ({
 
       <h2 className="text-bg text-[16px] font-sans font-semibold mb-2">{title}</h2>
       {oldPrice && (
-        <span className="text-bg text-[16px] line-through mb-1 ">De: {oldPrice}</span>
+        <span className="text-bg text-[16px] line-through mb-1 ">
+          De: {oldPrice}
+        </span>
       )}
       {newPrice && (
-        <span className="text-verdao font-black text-[25px] mb-1">{newPrice} <span className='text-sm font-sans'>à vista</span></span>
+        <span className="text-verdao font-black text-[25px] mb-1">
+          {newPrice} <span className="text-sm font-sans">à vista</span>
+        </span>
       )}
       {newPrice && (
-        <span className="text-gray-500 font-sans text-[12px] mb-1">{installment}</span>
+        <span className="text-gray-500 font-sans text-[12px] mb-1">
+          {installment}
+        </span>
       )}
 
       <div className="absolute inset-x-0 bottom-[-40px] flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 below-768:opacity-100">

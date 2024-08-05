@@ -18,6 +18,8 @@ import { useFavoritos } from '../../utils/FavoritosContext';
 import { useCart } from '../../components/Card/CartContext';
 import { formatCurrency, calculateTotal } from '../../utils/formatPrice';
 import { products } from '../../pages/itens'; // Importa a lista de produtos
+import { useRouter } from 'next/router';
+import { handleProductNavigation } from '../../utils/navigationUtils';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,6 +38,7 @@ const Header: React.FC = () => {
 
   const { contagemFavoritos } = useFavoritos();
   const { cartItems, updateItemQuantity, removeFromCart } = useCart();
+  const router = useRouter(); // Adicione o hook useRouter
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -102,6 +105,19 @@ const Header: React.FC = () => {
     console.log('CEP adicionado:', cep);
   };
 
+  const handleSearchItemClick = (product: any) => {
+    console.log("Produto selecionado:", product);
+    handleProductNavigation(router, product);
+    setSearchTerm('');
+    // Reinicia os produtos filtrados para forçar a re-renderização
+    setFilteredProducts([]);
+    setTimeout(() => setFilteredProducts(products.filter(p => p.id !== product.id)), 50);
+  };
+  
+  
+  
+  
+
   return (
     <>
       <header
@@ -157,23 +173,28 @@ const Header: React.FC = () => {
 
               {/* Exibição dos resultados da busca */}
               {searchTerm && (
-                <div className="absolute top-full left-0 right-0 bg-white text-black shadow-lg max-h-60 overflow-y-auto z-50">
-                  <h3 className="text-lg font-semibold p-2">Resultados da Busca</h3>
-                  {filteredProducts.length > 0 ? (
-                    <ul>
-                      {filteredProducts.map((product) => (
-                        <Link key={product.id} href={`/produto/${product.id}`}>
-                          <li className="flex items-center p-2 hover:bg-gray-100 cursor-pointer" onClick={() => setSearchTerm('')}>
-                            <Image
-                              src={product.imageSrc}
+              <div className="absolute top-full left-0 right-0 bg-white text-black shadow-lg max-h-60 overflow-y-auto z-50">
+                <h3 className="text-lg font-semibold p-2">Resultados da Busca</h3>
+                {filteredProducts.length > 0 ? (
+                  <ul>
+                    {filteredProducts.map((product) => (
+                      <li
+                        key={`${product.id}-${new Date().getTime()}`} // chave única com timestamp
+                        className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => handleSearchItemClick(product)}
+                      >
+                      <Image
+                              src={product.imageSrc.src}
                               alt={product.title}
                               width={50}
                               height={50}
+                              unoptimized={true}
+                              key={`${product.imageSrc.src}-${new Date().getTime()}`} // Chave dinâmica para forçar atualização
                             />
-                            <span className="ml-4">{product.title}</span>
-                          </li>
-                        </Link>
-                      ))}
+                        <span className="ml-4">{product.title}</span>
+                      </li>
+                    ))}
+
                     </ul>
                   ) : (
                     <p className="text-gray-500 p-2">Nenhum produto encontrado.</p>
