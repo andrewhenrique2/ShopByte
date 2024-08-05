@@ -55,7 +55,7 @@ import fonte4 from '../../../public/fonte3.webp';
 
 
 
-const products = [
+export const products = [
 
   {
     id: "Monitor-Gamer-SuperFrame-Vision",

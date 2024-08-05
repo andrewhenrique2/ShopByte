@@ -44,6 +44,8 @@ interface CardProps {
   storage?: string;
 }
 
+
+
 const Card = ({
   id,
   imageSrc,

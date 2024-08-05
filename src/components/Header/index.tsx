@@ -268,43 +268,43 @@ const Header: React.FC = () => {
 
           <div className="flex justify-start flex-wrap gap-2 md:gap-4 lg:gap-8 w-full md:w-auto">
             <Link
-              href="/"
+              href="/promocoes"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>PROMOÇÕES</span>
             </Link>
             <Link
-              href="/"
+              href="/mouse"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>MOUSE</span>
             </Link>
             <Link
-              href="/"
+              href="/teclado"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>TECLADO</span>
             </Link>
             <Link
-              href="/"
+              href="/mousepad"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>MOUSEPAD</span>
             </Link>
             <Link
-              href="/"
+              href="/monitores"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>MONITORES</span>
             </Link>
             <Link
-              href="/"
+              href="/notbook"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>NOTEBOOKS</span>
             </Link>
             <Link
-              href="/"
+              href="/computador"
               className="hover:text-orange-500 flex items-center space-x-2"
             >
               <span>PC GAMER</span>
