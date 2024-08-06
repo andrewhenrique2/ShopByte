@@ -41,19 +41,37 @@ const Header: React.FC = () => {
   const router = useRouter(); // Adicione o hook useRouter
 
   const handleClickOutside = (event: MouseEvent) => {
+    // Lógica para fechar o menu
     if (
-      (menuRef.current &&
-        !menuRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)) ||
-      (cartRef.current && !cartRef.current.contains(event.target as Node)) ||
-      (searchRef.current && !searchRef.current.contains(event.target as Node))
+      menuRef.current &&
+      !menuRef.current.contains(event.target as Node) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(event.target as Node)
     ) {
       setIsMenuOpen(false);
+    }
+
+    // Lógica para fechar o dropdown de busca
+    if (
+      searchRef.current &&
+      !searchRef.current.contains(event.target as Node)
+    ) {
+      setSearchTerm('');
+    }
+
+    // Lógica para fechar o carrinho
+    if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
       setIsCartOpen(false);
-      setSearchTerm(''); // Fecha o dropdown de busca
     }
   };
+
+  useEffect(() => {
+    console.log('Produtos filtrados atualizados', filteredProducts);
+  }, [filteredProducts]);
+
+  useEffect(() => {
+    console.log('Termo de busca atualizado', searchTerm);
+  }, [searchTerm]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -73,15 +91,15 @@ const Header: React.FC = () => {
     };
   }, []);
 
-  // Atualiza os produtos filtrados sempre que o termo de busca muda
   useEffect(() => {
     if (searchTerm) {
-      const results = products.filter(product =>
+      const results = products.filter((product) =>
         product.title.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
       setFilteredProducts(results);
     } else {
-      setFilteredProducts(products);
+      // Redefinindo completamente o estado para garantir a re-renderização
+      setFilteredProducts([...products]);
     }
   }, [searchTerm]);
 
@@ -106,17 +124,15 @@ const Header: React.FC = () => {
   };
 
   const handleSearchItemClick = (product: any) => {
-    console.log("Produto selecionado:", product);
+    console.log('Produto selecionado:', product);
     handleProductNavigation(router, product);
     setSearchTerm('');
-    // Reinicia os produtos filtrados para forçar a re-renderização
+    // Redefinição imediata seguida de atualização para forçar a limpeza
     setFilteredProducts([]);
-    setTimeout(() => setFilteredProducts(products.filter(p => p.id !== product.id)), 50);
+    setTimeout(() => {
+      setFilteredProducts(products.filter((p) => p.id !== product.id));
+    }, 0);
   };
-  
-  
-  
-  
 
   return (
     <>
@@ -147,16 +163,15 @@ const Header: React.FC = () => {
             </span>
           </Link>
 
-          <div className="flex justify-center flex-1 max-w-[600px] sm:flex" ref={searchRef}>
+          <div
+            className="flex justify-center flex-1 max-w-[600px] sm:flex"
+            ref={searchRef}
+          >
             <div className="flex w-full h-[45px] relative">
               <input
                 className={`w-full p-1 text-sm focus:outline-none border-none ${
-                  isScrolled
-                    ? 'bg-dark text-white'
-                    : 'border-gray-300 text-black'
-                } ${
-                  searchTerm ? 'rounded-t-md' : 'rounded-l-md'
-                }`} // Condicional para o border-radius
+                  isScrolled ? 'bg-dark text-white' : 'border-gray-300 text-black'
+                } ${searchTerm ? 'rounded-t-md' : 'rounded-l-md'}`} // Condicional para o border-radius
                 placeholder="Pesquise o seu produto"
                 type="text"
                 id="search"
@@ -173,28 +188,30 @@ const Header: React.FC = () => {
 
               {/* Exibição dos resultados da busca */}
               {searchTerm && (
-              <div className="absolute top-full left-0 right-0 bg-white text-black shadow-lg max-h-60 overflow-y-auto z-50">
-                <h3 className="text-lg font-semibold p-2">Resultados da Busca</h3>
-                {filteredProducts.length > 0 ? (
-                  <ul>
-                    {filteredProducts.map((product) => (
-                      <li
-                        key={`${product.id}-${new Date().getTime()}`} // chave única com timestamp
-                        className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => handleSearchItemClick(product)}
-                      >
-                      <Image
-                              src={product.imageSrc.src}
-                              alt={product.title}
-                              width={50}
-                              height={50}
-                              unoptimized={true}
-                              key={`${product.imageSrc.src}-${new Date().getTime()}`} // Chave dinâmica para forçar atualização
-                            />
-                        <span className="ml-4">{product.title}</span>
-                      </li>
-                    ))}
+                <div className="absolute top-full left-0 right-0 bg-white text-black shadow-lg max-h-60 overflow-y-auto z-50">
+                  <h3 className="text-lg font-semibold p-2">
+                    Resultados da Busca
+                  </h3>
+                  {filteredProducts.length > 0 ? (
+                    <ul>
+                      {filteredProducts.map((product) => (
+                        <li
+                          key={product.id} // Chave única baseada no ID do produto
+                          className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleSearchItemClick(product)}
+                        >
+                          <Image
+                            src={product.imageSrc.src}
+                            alt={product.title}
+                            width={50}
+                            height={50}
+                            key={`${product.id}-${product.imageSrc.src}`} // Combinação do ID do produto e URL da imagem como chave
+                            unoptimized={true}
+                          />
 
+                          <span className="ml-4">{product.title}</span>
+                        </li>
+                      ))}
                     </ul>
                   ) : (
                     <p className="text-gray-500 p-2">Nenhum produto encontrado.</p>
@@ -205,7 +222,10 @@ const Header: React.FC = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-1">
-            <FaUserCircle size={32} className="cursor-pointer mr-2 text-white" />
+            <FaUserCircle
+              size={32}
+              className="cursor-pointer mr-2 text-white"
+            />
             <div className="flex-col items-center space-x-1">
               <div className="text-xs flex items-start py-2 mr-8">
                 <span className="mx-1 text-[1.5em]">Olá,</span>
@@ -388,7 +408,9 @@ const Header: React.FC = () => {
             ref={cartRef}
             className="fixed inset-y-0 right-0 w-full sm:w-80 h-full bg-white shadow-md p-4 z-50 overflow-y-auto"
           >
-            <h2 className="text-lg font-black text-gray-500">Resumo de Compras</h2>
+            <h2 className="text-lg font-black text-gray-500">
+              Resumo de Compras
+            </h2>
             <button
               onClick={() => setIsCartOpen(false)}
               className="absolute top-4 right-4 text-black"
